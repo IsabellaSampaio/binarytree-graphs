@@ -14,7 +14,6 @@ public class ArvoreBinaria<T> {
 
     public ArvoreBinaria(Comparator<T> comp){
         comparador = comp;
-        this.lista = new ArrayList<T>();
     }
 // ----------------------------------------
     public void setNovoNo(T novo){
@@ -34,36 +33,70 @@ public class ArvoreBinaria<T> {
             }
         }
         if(comparador.compare(novo.getValor(), r.getValor())>0){
-            if(r.getFilho_esq()==null){
-                r.setFilhoEsq(novo);
+            if(r.getFilho_dir()==null){
+                r.setFilho_dir(novo);
             }else{
-                setNovoNo(r.getFilho_esq(), novo);
+                setNovoNo(r.getFilho_dir(), novo);
             }
         }
 
     }
 // -----------------------------------------
-    private void caminhaEmOrdem(){
+    public ArrayList<T> caminhaEmOrdem(){
+        ArrayList<T> lista = new ArrayList<T>();
         if(this.raiz!=null){
-            caminhaEmOrdemRec(this.raiz);
-            this.lista.add(this.raiz.getValor());
+            caminhaEmOrdemRec(this.raiz, lista);
+            lista.add(this.raiz.getValor());
            
         }
+
+        return lista;
     }
 
-    private void caminhaEmOrdemRec(Node<T> r){
+    private ArrayList<T> caminhaEmOrdemRec(Node<T> r, ArrayList<T> lista){
         if(r.getFilho_esq()!=null){
-            caminhaEmOrdemRec(r.getFilho_esq());
-            this.lista.add(r.getFilho_esq().getValor()); 
+            caminhaEmOrdemRec(r.getFilho_esq(), lista);
+            lista.add(r.getFilho_esq().getValor()); 
         }
             
         if(r.getFilho_dir()!= null){
-            caminhaEmOrdemRec(r.getFilho_dir());
-            this.lista.add(r.getFilho_dir().getValor());
+            caminhaEmOrdemRec(r.getFilho_dir(), lista);
+            lista.add(r.getFilho_dir().getValor());
         }
         
+        return lista;
         
     }
+// ----------------------------------------------
+
+public ArrayList<T> caminhaEmNivel(){
+    lista = new ArrayList<T>();
+    ArrayList<Node<T>> fila = new ArrayList<Node<T>>();
+    if(this.raiz !=null){
+        fila.add(this.raiz);
+        caminhaEmNivelRec(fila);
+    }
+
+    return lista;
+}
+
+private void caminhaEmNivelRec(ArrayList<Node<T>> fila){
+    Node<T> r = fila.get(0);
+    lista.add(r.getValor());
+    if(r.getFilho_esq()!=null){
+        fila.add(r.getFilho_esq()); 
+    }
+    if(r.getFilho_dir()!= null){
+        fila.add(r.getFilho_dir());
+    }
+
+    fila.remove(0);
+    if(!fila.isEmpty()){
+        caminhaEmNivelRec(fila);
+    }
+    
+}
+
 // ----------------------------------------------
 
     public int quantElem(){
@@ -87,11 +120,8 @@ public class ArvoreBinaria<T> {
 
 // -------------------------------------------------------------
 
-public ArrayList<T> getElementsList(){
-    caminhaEmOrdem();
-    return lista;
-    }
-}
+
+} // fecha classe
 
 
 

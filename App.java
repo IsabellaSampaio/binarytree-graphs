@@ -23,16 +23,23 @@ public class App {
         System.out.println(arvMat.quantElem());
         System.out.println(arvNome.quantElem());
         
-        ArrayList<Aluno> listaArvNome = arvNome.getElementsList();
+        ArrayList<Aluno> listaArvNome = arvNome.caminhaEmOrdem();
 
         for(int i=0; i<listaArvNome.size(); i++){
             System.out.println((listaArvNome.get(i)).getNome());
         }
 
-        ArrayList<Aluno> listaArvMat = arvMat.getElementsList();
+        ArrayList<Aluno> listaArvMat = arvMat.caminhaEmOrdem();
         
         for(int i=0; i<listaArvMat.size(); i++){
             System.out.println((listaArvMat.get(i)).getMatricula());
+        }
+
+        ArrayList<Aluno> listaMatEmNivel = arvMat.caminhaEmNivel();
+        
+        System.out.println("_________________________________________");
+        for(int i=0; i<listaMatEmNivel.size(); i++){
+            System.out.println((listaMatEmNivel.get(i)).getMatricula());
         }
 
     }
