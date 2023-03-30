@@ -27,7 +27,7 @@ public class ArvoreBinaria<T> {
     private void setNovoNo(Node<T> r, Node<T> novo){
         if(comparador.compare(novo.getValor(), r.getValor())<0){
             if(r.getFilho_esq()==null){
-                r.setFilhoEsq(novo);
+                r.setFilho_Esq(novo);
             }else{
                 setNovoNo(r.getFilho_esq(), novo);
             }
@@ -120,6 +120,48 @@ private void caminhaEmNivelRec(ArrayList<Node<T>> fila){
 
 // -------------------------------------------------------------
 
+    public void retornaValorArv(){
+        if(this.raiz != null){
+            retornaValorArv(this.raiz);
+        }
+    }
+
+    private void retornaValorArv(Node<T> raiz) {
+        if (raiz != null) {
+            System.out.println(raiz.getValor());
+            retornaValorArv(raiz.getFilho_esq());
+            retornaValorArv(raiz.getFilho_dir());
+        }
+    } 
+
+    public void remove(T valor) {
+        Node<T> novoNo = new Node<T>(valor);
+        this.raiz = removeRec(this.raiz, novoNo);
+    }
+    
+    private Node<T> removeRec(Node<T> no, Node<T> valor) {
+        if (no == null) {
+            return null;
+        } else if (comparador.compare(valor.getValor(), no.getValor()) < 0) {
+            no.setFilho_Esq(removeRec(no.getFilho_esq(), valor));
+        } else if (comparador.compare(valor.getValor(), no.getValor()) > 0) {
+            no.setFilho_dir(removeRec(no.getFilho_dir(), valor));
+        } else {
+            if (no.getFilho_esq() == null) {
+                return no.getFilho_dir();
+            } else if (no.getFilho_dir() == null) {
+                return no.getFilho_esq();
+            } else {
+                Node<T> min = no.getFilho_dir();
+                while (min.getFilho_esq() != null) {
+                    min = min.getFilho_esq();
+                }
+                no.setValor(min.getValor());
+                no.setFilho_dir(removeRec(no.getFilho_dir(), min));
+            }
+        }
+        return no;
+    }
 
 } // fecha classe
 

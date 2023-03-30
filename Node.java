@@ -7,7 +7,7 @@ public class Node<T>{
         valor=novoValor;
     }
 
-    public void setFilhoEsq(Node<T> novoNo){
+    public void setFilho_Esq(Node<T> novoNo){
         this.filho_esq = novoNo;
     }
 
@@ -25,6 +25,10 @@ public class Node<T>{
 
     public T getValor() {
         return valor;
+    }
+
+    public void setValor(T valor){
+        this.valor = valor;
     }
 
 
