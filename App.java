@@ -1,17 +1,36 @@
-
 import java.util.ArrayList;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
 
 public class App {
 
     public static void main(String[] args) {
 
+        // LER ARQUIVOS
         ArrayList<Aluno> alunos = new ArrayList<Aluno>();
-        alunos.add(new Aluno("Soraia", 1014, 9));
-        alunos.add(new Aluno("Fernanda", 1054, 8));
-        alunos.add(new Aluno("Julia", 1050, 5));
-        alunos.add(new Aluno("Pedro", 1000, 8));
-        alunos.add(new Aluno("Joao", 1001, 9));
 
+        // alunos.add(new Aluno("Soraia", 1014, 9));
+
+        try {
+            File arquivo = new File("entradaBalanceada10000000.txt");
+            Scanner scanner = new Scanner(arquivo);
+            while (scanner.hasNextLine()) {
+                String linha = scanner.nextLine();
+                String[] aluno = linha.split(";");
+                int tam = aluno.length;
+                if(tam>1){
+                    alunos.add(new Aluno(aluno[1],Integer.parseInt(aluno[0]), Integer.parseInt(aluno[2])));
+                    
+                }
+            }
+            scanner.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("O arquivo não foi encontrado.");
+            e.printStackTrace();
+        }
+
+        System.out.println(alunos.size());
         ArvoreBinaria<Aluno> arvNome = new ArvoreBinaria<Aluno>(new ComparadorPorNome());
         ArvoreBinaria<Aluno> arvMat = new ArvoreBinaria<Aluno>(new ComparadorPorMatricula());
 
@@ -23,26 +42,30 @@ public class App {
         System.out.println(arvMat.quantElem());
         System.out.println(arvNome.quantElem());
         
-        ArrayList<Aluno> listaArvNome = arvNome.caminhaEmOrdem();
+        // ArrayList<Aluno> listaArvNome = arvNome.caminhaEmOrdem();
 
-        for(int i=0; i<listaArvNome.size(); i++){
-            System.out.println((listaArvNome.get(i)).getNome());
-        }
+        // for(int i=0; i<listaArvNome.size(); i++){
+        //     System.out.println((listaArvNome.get(i)).getNome());
+        // }
 
-        ArrayList<Aluno> listaArvMat = arvMat.caminhaEmOrdem();
+        // ArrayList<Aluno> listaArvMat = arvMat.caminhaEmOrdem();
         
-        for(int i=0; i<listaArvMat.size(); i++){
-            System.out.println((listaArvMat.get(i)).getMatricula());
-        }
+        // for(int i=0; i<listaArvMat.size(); i++){
+        //     System.out.println((listaArvMat.get(i)).getMatricula());
+        // }
 
-        ArrayList<Aluno> listaMatEmNivel = arvMat.caminhaEmNivel();
+        // ArrayList<Aluno> listaMatEmNivel = arvMat.caminhaEmNivel();
         
-        System.out.println("_________________________________________");
-        for(int i=0; i<listaMatEmNivel.size(); i++){
-            System.out.println((listaMatEmNivel.get(i)).getMatricula());
-        }
+        // System.out.println("_________________________________________");
+        // for(int i=0; i<listaMatEmNivel.size(); i++){
+        //     System.out.println((listaMatEmNivel.get(i)).getMatricula());
+        // }
 
-        arvMat.busca(alunos.get(2));
-        arvMat.maiorMenor();
+        System.out.println(arvMat.getAltura());
+        System.out.println(arvNome.getAltura());
+
+
+        
     }
+
 }

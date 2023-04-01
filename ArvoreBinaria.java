@@ -221,6 +221,3 @@ private void caminhaEmNivelRec(ArrayList<Node<T>> fila){
     }
 
 } // fecha classe
-
-
-
