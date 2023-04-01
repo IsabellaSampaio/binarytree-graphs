@@ -42,5 +42,7 @@ public class App {
             System.out.println((listaMatEmNivel.get(i)).getMatricula());
         }
 
+        arvMat.busca(alunos.get(2));
+        arvMat.maiorMenor();
     }
 }

@@ -1,5 +1,3 @@
-
-
 public class Aluno{
     private String nome;
     private int matricula;
@@ -19,6 +17,11 @@ public class Aluno{
         return nome;
     }
 
+    @Override
+    public String toString() {
+        return this.nome + " " + Integer.toString(this.matricula);
     }
+
+}
 
 

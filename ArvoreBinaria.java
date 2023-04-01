@@ -134,6 +134,8 @@ private void caminhaEmNivelRec(ArrayList<Node<T>> fila){
         }
     } 
 
+// -----------------------------------------
+
     public void remove(T valor) {
         Node<T> novoNo = new Node<T>(valor);
         this.raiz = removeRec(this.raiz, novoNo);
@@ -161,6 +163,61 @@ private void caminhaEmNivelRec(ArrayList<Node<T>> fila){
             }
         }
         return no;
+    }
+
+// ---------------------------------------------------------------------
+
+    public boolean busca(T valor){
+        Node<T> curr = this.raiz;
+        ArrayList<T> listaNos = new ArrayList<>();
+        listaNos.add(curr.getValor());
+
+        while(curr != null){
+            if(comparador.compare(curr.getValor(), valor) == 0){
+                System.out.println("\nValor " + valor + " encontrado!\n");
+                System.out.println("Nós visitados até encontrar o nó desejado: " + listaNos);
+                return true;
+            }
+            
+            if(comparador.compare(curr.getValor(), valor) < 0){
+                curr = curr.getFilho_dir();
+            }
+
+            else if(comparador.compare(curr.getValor(), valor) > 0){
+                curr = curr.getFilho_esq();
+            }
+
+            if(curr.getValor()!= valor){
+                listaNos.add(curr.getValor());
+            }
+        }
+        
+        System.out.println("\nO valor não foi encontrado na árvore");
+        return false;
+    }
+
+
+// ----------------------------------------------------------------------
+
+    public void maiorMenor(){
+        Node<T> menorVal = this.raiz;
+        Node<T> maiorVal = this.raiz;
+
+        if (this.raiz == null) {
+            System.out.println("Árvore não existe, raiz nula");
+
+        }else {
+            while(menorVal.getFilho_esq() != null){
+                menorVal = menorVal.getFilho_esq();
+            }
+            
+            while(maiorVal.getFilho_dir() != null){
+                maiorVal = maiorVal.getFilho_dir();
+            }
+            
+            System.out.println("O menor valor na árvore é: " + menorVal.getValor());
+            System.out.println("O maior valor na árvore é: " + maiorVal.getValor());
+        }
     }
 
 } // fecha classe
