@@ -2,16 +2,30 @@ import java.util.ArrayList;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
-
+import java.io.IOException;
 public class App {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException, IOException{
 
         // LER ARQUIVOS
         ArrayList<Aluno> alunos = new ArrayList<Aluno>();
 
+        //Menu 
+        Scanner scan = new Scanner(System.in);
+        int opcao = 0;
+        Menu menu = new Menu(scan, opcao);
+
+        while(opcao != 5){
+            menu.menu();
+            opcao = menu.lerOpcaoMenu();
+            menu.escolheMenu(opcao);             
+        }       
+
         // alunos.add(new Aluno("Soraia", 1014, 9));
 
+        //comentei o resto do cod para poder testar o menu acima :D (isa)
+
+        /* 
         try {
             File arquivo = new File("entradaBalanceada10000000.txt");
             Scanner scanner = new Scanner(arquivo);
@@ -63,6 +77,9 @@ public class App {
 
         System.out.println(arvMat.getAltura());
         System.out.println(arvNome.getAltura());
+        
+        */
+
 
 
         
