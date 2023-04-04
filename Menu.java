@@ -1,5 +1,9 @@
 import java.util.Scanner;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.io.File;
+import java.io.FileNotFoundException;
+
 public class Menu {
     private Scanner scan;
     private int opcao;
@@ -43,6 +47,7 @@ public class Menu {
         int nota = 0;
         String nome = "";
         String resp = "";
+
 
         //conferir se o aluno já existe no sistema, se existir informar isso ao usuário
         //conferir também se o aluno está sendo adicionado ao sistema corretamente ao final da execução da função
@@ -217,5 +222,34 @@ public class Menu {
                 
         }
     }  
+
+    // Lê o arquivo desejado e retorna uma lista de alunos
+    public ArrayList<Aluno> lerArq(){
+        ArrayList<Aluno> alunos = new ArrayList<Aluno>();
+        System.out.println("Informe o nome do arquivo que deseja ler: ");
+        String arq = scan.nextLine();
+
+        System.out.println("Lendo arquivo...");
+        try {
+            File arquivo = new File(arq);
+            Scanner scanner = new Scanner(arquivo);
+            while (scanner.hasNextLine()) {
+                String linha = scanner.nextLine();
+                String[] aluno = linha.split(";");
+                int tam = aluno.length;
+                if(tam>1){
+                    alunos.add(new Aluno(aluno[1],Integer.parseInt(aluno[0]), Integer.parseInt(aluno[2])));
+                    
+                }
+            }
+            scanner.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("O arquivo não foi encontrado.");
+            e.printStackTrace();
+        }
+
+        return alunos;
+
+    }
 
 }
