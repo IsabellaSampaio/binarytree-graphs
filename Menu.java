@@ -23,7 +23,7 @@ public class Menu {
     }
 
     public ArrayList<Aluno> getAlunos() {
-        return arvMat.caminhaEmOrdem();
+        return arvMat.getListaOrdenada();
     }
 
     public static void limpaTela() {

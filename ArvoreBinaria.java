@@ -45,7 +45,7 @@ public class ArvoreBinaria<T> {
     public ArrayList<T> caminhaEmOrdem(){
         ArrayList<T> lista = new ArrayList<T>();
         if(this.raiz!=null){
-            caminhaEmOrdemRec(this.raiz, lista);
+            lista = caminhaEmOrdemRec(this.raiz, lista);
             lista.add(this.raiz.getValor());
            
         }
@@ -97,6 +97,32 @@ private void caminhaEmNivelRec(ArrayList<Node<T>> fila){
     
 }
 
+// -----------------------------------------
+public ArrayList<T> getListaOrdenada(){
+    ArrayList<T> lista = new ArrayList<T>();
+    if(this.raiz!=null){
+        lista = getListaOrdenada(this.raiz, lista);
+    }
+
+    return lista;
+}
+
+private ArrayList<T> getListaOrdenada(Node<T> r, ArrayList<T> lista){
+    if(r.getFilho_esq()!=null){
+        lista = getListaOrdenada(r.getFilho_esq(), lista);
+    }
+    
+    lista.add(r.getValor());
+
+    if(r.getFilho_dir()!= null){
+
+        lista = getListaOrdenada(r.getFilho_dir(), lista);
+        
+    }
+    
+    return lista;
+    
+}
 // ----------------------------------------------
 
     public int quantElem(){

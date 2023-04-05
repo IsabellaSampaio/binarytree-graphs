@@ -1,8 +1,7 @@
-13;Ione;9
-15;Isabella;10
-17;Lud;10
-22;LIz;9
-18;Marcos;9
+12;Carlos;10
+13;Lud;10
+14;Isabella;10
+15;Lara;9
 16;Eduardo;9
-14;Carlos;10
-12;Lara;9
+17;Marcos;9
+18;Ione;9
