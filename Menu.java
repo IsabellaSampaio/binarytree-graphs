@@ -10,21 +10,20 @@ import java.io.BufferedWriter;
 public class Menu {
     private Scanner scan;
     private int opcao;
-    private ArrayList<Aluno> alunos;
+    private ArvoreBinaria<Aluno> arvMat;
+    private ArvoreBinaria<Aluno> arvNome;
 
 
-    public ArrayList<Aluno> getAlunos() {
-        return alunos;
-    }
-
-    public void setAlunos(ArrayList<Aluno> alunos) {
-        this.alunos = alunos;
-    }
 
     public Menu(Scanner scan, int opcao){
         this.scan = scan;
         this.opcao = opcao;
-        this.alunos = new ArrayList<Aluno>();
+        arvNome = new ArvoreBinaria<Aluno>(new ComparadorPorNome());
+        arvMat = new ArvoreBinaria<Aluno>(new ComparadorPorMatricula());
+    }
+
+    public ArrayList<Aluno> getAlunos() {
+        return arvMat.caminhaEmOrdem();
     }
 
     public static void limpaTela() {
@@ -56,7 +55,7 @@ public class Menu {
     }
 
     public void menuAddAlunos() throws InterruptedException, IOException{
-        limpaTela();
+
         int mat = 0;
         int nota = 0;
         String nome = "";
@@ -67,24 +66,38 @@ public class Menu {
         //conferir também se o aluno está sendo adicionado ao sistema corretamente ao final da execução da função
 
         do{
-            System.out.println("Matrícula do aluno: ");
-            mat = scan.nextInt();
-            scan.nextLine();
-            System.out.println("Nome do aluno: ");
-            nome = scan.nextLine();
-            System.out.println("Nota do aluno: ");
-            nota = scan.nextInt();
-            scan.nextLine();
-    
-            System.out.print("Aluno adicionado com sucesso!\n");
-            System.out.println("Deseja adicionar mais um aluno? (S, s) ou (N, n)");
-            resp = scan.nextLine();
-
-
-            Aluno aluno = new Aluno(nome, mat, nota);
-            alunos.add(aluno);
-
             limpaTela();
+            try{
+            
+                System.out.println("Matrícula do aluno: ");
+                mat = scan.nextInt();
+                scan.nextLine();
+                if(arvMat.busca(new Aluno("", mat, 0))>=0){
+                    throw new Exception("Matricula já existe");
+                }
+                System.out.println("Nome do aluno: ");
+                nome = scan.nextLine();
+                System.out.println("Nota do aluno: ");
+                nota = scan.nextInt();
+                scan.nextLine();
+                
+                arvMat.setNovoNo(new Aluno(nome, mat, nota));
+                arvNome.setNovoNo(new Aluno(nome, mat, nota));
+        
+                System.out.print("Aluno adicionado com sucesso!\n");
+
+                System.out.println("Deseja adicionar mais um aluno? (S, s) ou (N, n)");
+                resp = scan.nextLine();
+
+
+
+
+                limpaTela();
+
+            }catch(Exception e){
+                System.out.println(e.getMessage()+"\nDeseja tentar novamente? (S, s) ou (N, n)");
+                resp = scan.nextLine();
+            }
 
             //importante verificar se o usuário inseriu o dado corretamente em "op", caso ele insira algo diferente do que é pedido é necessário informar o erro a ele e pedir que digite novamente
 
@@ -109,11 +122,26 @@ public class Menu {
                 System.out.println("Informe a matrícula do aluno que deseja buscar: ");
                 mat = scan.nextInt();
                 scan.nextLine();
+                int buscaNo=arvMat.busca(new Aluno("", mat, 0));
+                if(buscaNo>0){
+                    System.out.println("Matricula encontrada!\nNumero de nos percorridos: "+ buscaNo);
+                }
+                else{
+                    System.out.println("Matricula nao encontrada.");
+                }
                 //verifica se o aluno está na árvore, se sim retorna os dados do aluno, se não retorna "Aluno não está registrado no sistema"
     
             }else if(op == 2){
                 System.out.println("Informe o nome do aluno que deseja buscar: ");
                 nome = scan.nextLine();
+                int buscaNo = arvMat.busca(new Aluno(nome,0, 0));
+                if(buscaNo>0){
+                    System.out.println("Nome encontrado!\nNumero de nos percorridos: "+ buscaNo);
+                }
+                else{
+                    System.out.println("Nome nao encontrado.");
+                }
+
                 //verifica se o aluno está na árvore, se sim retorna os dados do aluno, se não retorna "Aluno não está registrado no sistema"
             }
 
@@ -236,22 +264,30 @@ public class Menu {
         }
     }  
 
-    // Lê o arquivo desejado e retorna uma lista de alunos
-    public ArrayList<Aluno> lerArq(){
-        ArrayList<Aluno> alunos = new ArrayList<Aluno>();
+    // Lê o arquivo desejado e monta a Árvore
+    public void lerArq(){
+        String arq = "";
+        File arquivo = new File(arq);
+
+        do{
+        limpaTela();
         System.out.println("Informe o nome do arquivo que deseja ler: ");
-        String arq = scan.nextLine();
+        arq = scan.nextLine();
+        arquivo = new File(arq);
+        }while(!arquivo.exists());
+        
 
         System.out.println("Lendo arquivo...");
         try {
-            File arquivo = new File(arq);
             Scanner scanner = new Scanner(arquivo);
             while (scanner.hasNextLine()) {
                 String linha = scanner.nextLine();
                 String[] aluno = linha.split(";");
                 int tam = aluno.length;
                 if(tam>1){
-                    alunos.add(new Aluno(aluno[1],Integer.parseInt(aluno[0]), Integer.parseInt(aluno[2])));
+                    Aluno nodeAluno = new Aluno(aluno[1],Integer.parseInt(aluno[0]), Integer.parseInt(aluno[2]));
+                    arvNome.setNovoNo(nodeAluno);
+                    arvMat.setNovoNo(nodeAluno);
                     
                 }
             }
@@ -261,16 +297,21 @@ public class Menu {
             e.printStackTrace();
         }
 
-        return alunos;
 
     }
 
     //adiciona ao final do arquivo os novos alunos adicionados
-    public void addNoArq(ArrayList<Aluno> alunos, String nomeArquivo) {
+    // atencion: não está adicionando no arquivo ainda em ordem crescente! sugiro a gente implementar algum método de ordenação nessa lista pronta.
+    public void addNoArq() {
+        System.out.println(arvMat.quantElem());
         try {
-            FileWriter escreveArq = new FileWriter(nomeArquivo, true);
+            File arquivo = new File("saida123.txt"); 
+            if(!arquivo.exists()){
+                arquivo.createNewFile();
+            }
+            FileWriter escreveArq = new FileWriter("saida123.txt", false);
             BufferedWriter bufferWritter = new BufferedWriter(escreveArq);
-            
+            ArrayList<Aluno> alunos = getAlunos();
             for (Aluno aluno : alunos) {
                 bufferWritter.write(aluno.getMatricula() + ";");
                 bufferWritter.write(aluno.getNome() + ";");

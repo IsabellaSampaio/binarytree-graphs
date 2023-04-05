@@ -15,9 +15,7 @@ public class App {
 
         // Ler arquivos e montar árvores
     
-        ArrayList<Aluno> alunos = menu.lerArq();
-        ArvoreBinaria<Aluno> arvNome = new ArvoreBinaria<Aluno>(new ComparadorPorNome());
-        ArvoreBinaria<Aluno> arvMat = new ArvoreBinaria<Aluno>(new ComparadorPorMatricula());
+        menu.lerArq();
       
         
         while(opcao != 5){
@@ -27,21 +25,17 @@ public class App {
         }     
         
         
-        for(int j = 0; j < menu.getAlunos().size(); j++){
-            alunos.add(menu.getAlunos().get(j));
-        }
+        // for(int j = 0; j < menu.getAlunos().size(); j++){
+        //     alunos.add(menu.getAlunos().get(j));
+        // }
 
 
-        for(int i=0; i< alunos.size(); i++){
-            arvNome.setNovoNo(alunos.get(i));
-            arvMat.setNovoNo(alunos.get(i));
-        }
 
-        arvNome.retornaValorArv();
-        menu.addNoArq(menu.getAlunos(), "entrada123.txt");
+        // arvNome.retornaValorArv();
+        menu.addNoArq();
 
-        System.out.println(arvMat.minVal());
-        System.out.println(arvMat.maxVal());
+        // System.out.println(arvMat.minVal());
+        // System.out.println(arvMat.maxVal());
 
         
         // ArrayList<Aluno> listaArvNome = arvNome.caminhaEmOrdem();

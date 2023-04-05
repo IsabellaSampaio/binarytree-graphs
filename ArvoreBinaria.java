@@ -167,33 +167,29 @@ private void caminhaEmNivelRec(ArrayList<Node<T>> fila){
 
 // ---------------------------------------------------------------------
 
-    public boolean busca(T valor){
-        Node<T> curr = this.raiz;
-        ArrayList<T> listaNos = new ArrayList<>();
-        listaNos.add(curr.getValor());
+    public int busca(T valor){
+        Node<T> r = this.raiz;
+        int contador = 0;
 
-        while(curr != null){
-            if(comparador.compare(curr.getValor(), valor) == 0){
-                System.out.println("\nValor " + valor + " encontrado!\n");
-                System.out.println("Nós visitados até encontrar o nó desejado: " + listaNos);
-                return true;
+        while(r != null){
+            
+            if(comparador.compare(r.getValor(), valor) == 0){
+                return contador;
             }
             
-            if(comparador.compare(curr.getValor(), valor) < 0){
-                curr = curr.getFilho_dir();
+            contador+=1;
+            if(comparador.compare(r.getValor(), valor) < 0){
+                    r = r.getFilho_dir();
             }
 
-            else if(comparador.compare(curr.getValor(), valor) > 0){
-                curr = curr.getFilho_esq();
+            else if(comparador.compare(r.getValor(), valor) > 0){
+                    r = r.getFilho_esq();
             }
 
-            if(curr.getValor()!= valor){
-                listaNos.add(curr.getValor());
-            }
+
         }
         
-        System.out.println("\nO valor não foi encontrado na árvore");
-        return false;
+        return -1;
     }
 
 
