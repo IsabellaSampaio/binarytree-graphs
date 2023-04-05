@@ -7,8 +7,8 @@ public class Node<T>{
         valor=novoValor;
     }
 
-    public void setFilho_Esq(Node<T> novoNo){
-        this.filho_esq = novoNo;
+    public void setFilho_Esq(Node<T> filho_esq){
+        this.filho_esq = filho_esq;
     }
 
     public Node<T> getFilho_esq() {

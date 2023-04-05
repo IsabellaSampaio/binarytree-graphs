@@ -1,16 +1,30 @@
 import java.util.Scanner;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.BufferedWriter;
 
 public class Menu {
     private Scanner scan;
     private int opcao;
+    private ArrayList<Aluno> alunos;
+
+
+    public ArrayList<Aluno> getAlunos() {
+        return alunos;
+    }
+
+    public void setAlunos(ArrayList<Aluno> alunos) {
+        this.alunos = alunos;
+    }
 
     public Menu(Scanner scan, int opcao){
         this.scan = scan;
         this.opcao = opcao;
+        this.alunos = new ArrayList<Aluno>();
     }
 
     public static void limpaTela() {
@@ -68,13 +82,13 @@ public class Menu {
 
 
             Aluno aluno = new Aluno(nome, mat, nota);
+            alunos.add(aluno);
 
             limpaTela();
 
             //importante verificar se o usuário inseriu o dado corretamente em "op", caso ele insira algo diferente do que é pedido é necessário informar o erro a ele e pedir que digite novamente
 
         }while(!((resp.equals("N")) || (resp.equals("n"))));
-
 
     }
 
@@ -84,7 +98,6 @@ public class Menu {
         int mat = 0;
         String nome = "";
         String resp = "";
-        String respError = "";
 
         do{
             System.out.println("[1] Buscar aluno por matrícula");
@@ -251,5 +264,26 @@ public class Menu {
         return alunos;
 
     }
+
+    //adiciona ao final do arquivo os novos alunos adicionados
+    public void addNoArq(ArrayList<Aluno> alunos, String nomeArquivo) {
+        try {
+            FileWriter escreveArq = new FileWriter(nomeArquivo, true);
+            BufferedWriter bufferWritter = new BufferedWriter(escreveArq);
+            
+            for (Aluno aluno : alunos) {
+                bufferWritter.write(aluno.getMatricula() + ";");
+                bufferWritter.write(aluno.getNome() + ";");
+                bufferWritter.write(aluno.getNota() + "");
+                bufferWritter.newLine(); // adiciona uma nova linha após o conteúdo
+            }
+            
+            bufferWritter.close();
+        } catch (IOException e) {
+            System.out.println("Não foi possível adicionar os itens no arquivo.");
+            e.printStackTrace();
+        }
+    }
+    
 
 }

@@ -1,0 +1,8 @@
+7
+15;Isabella;10
+13;Ione;9
+12;Lara;9
+14;Carlos;10
+17;Lud;10
+16;Eduardo;9
+18;Marcos;9

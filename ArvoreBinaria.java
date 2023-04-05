@@ -199,6 +199,26 @@ private void caminhaEmNivelRec(ArrayList<Node<T>> fila){
 
 // ----------------------------------------------------------------------
 
+    //retorna o menor valor da árvore 
+    public T minVal(){
+        while(this.raiz.getFilho_esq() != null){
+            this.raiz = this.raiz.getFilho_esq();
+        }
+
+        return this.raiz.getValor();
+    }
+
+    //retorna o maior valor da árvore
+    //problema: retornando o mesmo valor para maior e menor valor no caso de árvore de matrícula
+    public T maxVal(){
+        while(this.raiz.getFilho_dir() != null){
+            this.raiz = this.raiz.getFilho_dir();
+        }
+
+        return this.raiz.getValor();
+    }
+
+
     public void maiorMenor(){
         Node<T> menorVal = this.raiz;
         Node<T> maiorVal = this.raiz;
