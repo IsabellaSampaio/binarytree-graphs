@@ -72,7 +72,7 @@ public class Menu {
                 System.out.println("Matrícula do aluno: ");
                 mat = scan.nextInt();
                 scan.nextLine();
-                if(arvMat.busca(new Aluno("", mat, 0))>=0){
+                if(arvMat.busca(new Aluno("", mat, 0)) == null){
                     throw new Exception("Matricula já existe");
                 }
                 System.out.println("Nome do aluno: ");
@@ -109,7 +109,6 @@ public class Menu {
         int mat = 0;
         String nome = "";
         String resp = "";
-        int quantNos = 0;
 
         do{
             System.out.println("[1] Buscar aluno por matrícula");
@@ -121,14 +120,11 @@ public class Menu {
                 System.out.println("Informe a matrícula do aluno que deseja buscar: ");
                 mat = scan.nextInt();
                 scan.nextLine();
-                Aluno alunoMat = arvMat.search(new Aluno("", mat, 0));
-                quantNos = arvMat.busca(alunoMat);
+                Aluno alunoMat = arvMat.busca(new Aluno("", mat, 0));
 
                 if(alunoMat == null){
                     System.out.println("Matrícula não encontrada");
                 }else{
-                    System.out.println("Matrícula encontrada!");
-                    System.out.println("Quantidade de elementos pecorridos: " + quantNos);
                     System.out.println("Dados do aluno: ");
                     System.out.println(alunoMat);
                 }
@@ -137,14 +133,11 @@ public class Menu {
             }else if(op == 2){
                 System.out.println("Informe o nome do aluno que deseja buscar: ");
                 nome = scan.nextLine();
-                Aluno alunoNome = arvNome.search(new Aluno(nome, 0, 0));
-                quantNos = arvNome.busca(alunoNome);
+                Aluno alunoNome = arvNome.busca(new Aluno(nome, 0, 0));
 
                 if(alunoNome == null){
                     System.out.println("Nome não encontrado");
                 }else{
-                    System.out.println("Nome encontrado encontrada!");
-                    System.out.println("Quantidade de elementos pecorridos: " + quantNos);
                     System.out.println("Dados do aluno: ");
                     System.out.println(alunoNome);
                 }
@@ -186,7 +179,7 @@ public class Menu {
                 System.out.println("Informe a matrícula do aluno que deseja excluir: ");
                 mat = scan.nextInt();
                 scan.nextLine();
-                Aluno alunoMat = arvMat.search(new Aluno("", mat, 0));
+                Aluno alunoMat = arvMat.busca(new Aluno("", mat, 0));
                 if (alunoMat == null) {
                     System.out.println("Matrícula não encontrada.");
                 } else {
@@ -201,7 +194,7 @@ public class Menu {
             }else if(op == 2){
                 System.out.println("Informe o nome do aluno que deseja excluir: ");
                 nome = scan.nextLine();
-                Aluno alunoNome = arvNome.search(new Aluno(nome, 0, 0));
+                Aluno alunoNome = arvNome.busca(new Aluno(nome, 0, 0));
                 if (alunoNome == null) {
                     System.out.println("Nome não encontrado.");
                 } else {

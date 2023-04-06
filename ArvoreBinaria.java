@@ -187,14 +187,15 @@ private void caminhaEmNivelRec(ArrayList<Node<T>> fila){
 // ------------ BUSCA NÓ DESEJADO ----------------------
 
 
-    public int busca(T valor){
+    public T busca(T valor){
         Node<T> r = this.raiz;
         int contador = 0;
 
         while(r != null){
             
             if(comparador.compare(r.getValor(), valor) == 0){
-                return contador;
+                System.out.println("Quantidade de elementos percorridos: " + contador);
+                return r.getValor();
             }
             
             contador+=1;
@@ -206,39 +207,10 @@ private void caminhaEmNivelRec(ArrayList<Node<T>> fila){
                     r = r.getFilho_esq();
             }
 
+        }
 
-        }
-        
-        return -1;
+        return null;
     }
-
-// ------------ BUSCA NÓ DESEJADO E RETORNA O VALOR SE O NÓ FOR ENCONTRADO ----------------------
-
-    public T search(T valor){
-        if(this.raiz == null){
-            return null;
-        }else{
-            return busca2(this.raiz, valor);
-        }
-    }
-    
-    private T busca2(Node<T> raiz, T valor) {
-        if (raiz == null) {
-            return null;
-        }
-        
-        if (comparador.compare(raiz.getValor(), valor) == 0) {
-            return raiz.getValor();
-        }
-        
-        if (comparador.compare(raiz.getValor(), valor) > 0) {
-            return busca2(raiz.getFilho_esq(), valor);
-        } else {
-            return busca2(raiz.getFilho_dir(), valor);
-        }
-    }
-    
-    
 
 // ------------- RETORNA MENOR E MAIOR VALOR DA ARVORE --------------------
 
