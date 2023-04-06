@@ -15,9 +15,7 @@ public class App {
 
         // Ler arquivos e montar árvores
     
-        menu.lerArq();
-      
-        
+        menu.lerArq(); 
         while(opcao != 5){
             menu.menu();
             opcao = menu.lerOpcaoMenu();
@@ -32,8 +30,6 @@ public class App {
 
 
         // arvNome.retornaValorArv();
-        menu.addNoArq();
-
         // System.out.println(arvMat.minVal());
         // System.out.println(arvMat.maxVal());
 

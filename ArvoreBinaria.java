@@ -12,11 +12,16 @@ public class ArvoreBinaria<T> {
     protected Comparator<T> comparador;
     protected ArrayList<T> lista;
 
+    public Node<T> getRaiz() {
+        return raiz;
+    }
+
     public ArvoreBinaria(Comparator<T> comp){
         comparador = comp;
     }
+
 // -------- ADICIONAR NOVO NÓ --------------------------------
-    public void addNovoNo(T novo){ // Mudei para add por pedido do professor
+    public void addNovoNo(T novo){ 
         Node<T> novoNo= new Node<T>(novo);
         if(this.raiz==null)
             this.raiz = novoNo;
@@ -44,38 +49,38 @@ public class ArvoreBinaria<T> {
 
 // ------- RETORNA A ALTURA DA ÁRVORE ----------------------------------
 
-public int calcAltura(){
-    if(this.raiz!=null){
-        return calcAltura(this.raiz);
-    }
-    else{
-        return 0;
-    }
+    public int calcAltura(){
+        if(this.raiz!=null){
+            return calcAltura(this.raiz);
+        }
+        else{
+            return 0;
+        }
 
-}
-
-private int calcAltura(Node<T> r){
-
-    int h_dir = 0;
-    int h_esq = 0;
-
-    if(r.getFilho_esq()!=null){
-        h_esq=calcAltura(r.getFilho_esq());
     }
 
-    if(r.getFilho_dir()!= null){
-        h_dir = calcAltura(r.getFilho_dir());
-    }
+    private int calcAltura(Node<T> r){
 
-    if(h_esq > h_dir){
-        return h_esq +1;
-    }
-    else{
-        return h_dir+1;
-    }
+        int h_dir = 0;
+        int h_esq = 0;
+
+        if(r.getFilho_esq()!=null){
+            h_esq = calcAltura(r.getFilho_esq());
+        }
+
+        if(r.getFilho_dir()!= null){
+            h_dir = calcAltura(r.getFilho_dir());
+        }
+
+        if(h_esq > h_dir){
+            return h_esq + 1;
+        }
+        else{
+            return h_dir + 1;
+        }
 
 
-}
+    }
 // ----- RETORNA UMA LISTA COM OS ITENS DA ARVORE EM ORDEM CRESCENTE --------
     public ArrayList<T> caminhaEmOrdem(){
         ArrayList<T> lista = new ArrayList<T>();
@@ -145,13 +150,6 @@ private void caminhaEmNivelRec(ArrayList<Node<T>> fila){
         
     }
 
-// ----------- RETORNA A RAIZ DA ARVORE ----------------
-    
-    public Node<T> getRaiz() {
-        return raiz;
-    }
-
-
 
 // ------------ REMOVE NÓ RECEBIDO COMO PARÂMETRO -----------------------------
 
@@ -184,7 +182,10 @@ private void caminhaEmNivelRec(ArrayList<Node<T>> fila){
         return no;
     }
 
+    
+
 // ------------ BUSCA NÓ DESEJADO ----------------------
+
 
     public int busca(T valor){
         Node<T> r = this.raiz;
@@ -211,6 +212,33 @@ private void caminhaEmNivelRec(ArrayList<Node<T>> fila){
         return -1;
     }
 
+// ------------ BUSCA NÓ DESEJADO E RETORNA O VALOR SE O NÓ FOR ENCONTRADO ----------------------
+
+    public T search(T valor){
+        if(this.raiz == null){
+            return null;
+        }else{
+            return busca2(this.raiz, valor);
+        }
+    }
+    
+    private T busca2(Node<T> raiz, T valor) {
+        if (raiz == null) {
+            return null;
+        }
+        
+        if (comparador.compare(raiz.getValor(), valor) == 0) {
+            return raiz.getValor();
+        }
+        
+        if (comparador.compare(raiz.getValor(), valor) > 0) {
+            return busca2(raiz.getFilho_esq(), valor);
+        } else {
+            return busca2(raiz.getFilho_dir(), valor);
+        }
+    }
+    
+    
 
 // ------------- RETORNA MENOR E MAIOR VALOR DA ARVORE --------------------
 
@@ -255,5 +283,6 @@ private void caminhaEmNivelRec(ArrayList<Node<T>> fila){
         return max;
 
     }
+
 
 } // fecha classe

@@ -23,7 +23,7 @@ public class Menu {
     }
 
     public ArrayList<Aluno> getAlunos() {
-        return arvNome.caminhaEmOrdem();
+        return arvMat.caminhaEmOrdem();
     }
 
     public static void limpaTela() {
@@ -54,7 +54,7 @@ public class Menu {
 
     }
 
-    public void menuAddAlunos() throws InterruptedException, IOException{
+    public void menuAddAlunos(){
 
         int mat = 0;
         int nota = 0;
@@ -90,8 +90,6 @@ public class Menu {
                 resp = scan.nextLine();
 
 
-
-
                 limpaTela();
 
             }catch(Exception e){
@@ -111,6 +109,7 @@ public class Menu {
         int mat = 0;
         String nome = "";
         String resp = "";
+        int quantNos = 0;
 
         do{
             System.out.println("[1] Buscar aluno por matrícula");
@@ -122,24 +121,32 @@ public class Menu {
                 System.out.println("Informe a matrícula do aluno que deseja buscar: ");
                 mat = scan.nextInt();
                 scan.nextLine();
-                int buscaNo=arvMat.busca(new Aluno("", mat, 0));
-                if(buscaNo>0){
-                    System.out.println("Matricula encontrada!\nNumero de nos percorridos: "+ buscaNo);
-                }
-                else{
-                    System.out.println("Matricula nao encontrada.");
+                Aluno alunoMat = arvMat.search(new Aluno("", mat, 0));
+                quantNos = arvMat.busca(alunoMat);
+
+                if(alunoMat == null){
+                    System.out.println("Matrícula não encontrada");
+                }else{
+                    System.out.println("Matrícula encontrada!");
+                    System.out.println("Quantidade de elementos pecorridos: " + quantNos);
+                    System.out.println("Dados do aluno: ");
+                    System.out.println(alunoMat);
                 }
                 //verifica se o aluno está na árvore, se sim retorna os dados do aluno, se não retorna "Aluno não está registrado no sistema"
     
             }else if(op == 2){
                 System.out.println("Informe o nome do aluno que deseja buscar: ");
                 nome = scan.nextLine();
-                int buscaNo = arvMat.busca(new Aluno(nome,0, 0));
-                if(buscaNo>0){
-                    System.out.println("Nome encontrado!\nNumero de nos percorridos: "+ buscaNo);
-                }
-                else{
-                    System.out.println("Nome nao encontrado.");
+                Aluno alunoNome = arvNome.search(new Aluno(nome, 0, 0));
+                quantNos = arvNome.busca(alunoNome);
+
+                if(alunoNome == null){
+                    System.out.println("Nome não encontrado");
+                }else{
+                    System.out.println("Nome encontrado encontrada!");
+                    System.out.println("Quantidade de elementos pecorridos: " + quantNos);
+                    System.out.println("Dados do aluno: ");
+                    System.out.println(alunoNome);
                 }
 
                 //verifica se o aluno está na árvore, se sim retorna os dados do aluno, se não retorna "Aluno não está registrado no sistema"
@@ -166,8 +173,9 @@ public class Menu {
         String nome = "";
         String resp = "";
 
+    
         do{
-
+    
             System.out.println("[1] Excluir aluno por matrícula");
             System.out.println("[2] Excluir aluno por nome");
             op = scan.nextInt();
@@ -178,23 +186,43 @@ public class Menu {
                 System.out.println("Informe a matrícula do aluno que deseja excluir: ");
                 mat = scan.nextInt();
                 scan.nextLine();
-                //verifica se o aluno está na árvore, se sim retorna os dados do aluno para o usuário verificar e depois exclui do sistema, se não retorna "Aluno não está registrado no sistema"
+                Aluno alunoMat = arvMat.search(new Aluno("", mat, 0));
+                if (alunoMat == null) {
+                    System.out.println("Matrícula não encontrada.");
+                } else {
+                    System.out.println("Dados do aluno: ");
+                    System.out.println(alunoMat);
+                    arvMat.remove(alunoMat);
+                    arvNome.remove(alunoMat);
+                    System.out.print("Aluno excluído com sucesso!\n");
+    
+                }
     
             }else if(op == 2){
                 System.out.println("Informe o nome do aluno que deseja excluir: ");
                 nome = scan.nextLine();
-                //verifica se o aluno está na árvore, se sim retorna os dados do aluno para o usuário verificar e depois exclui do sistema, se não retorna "Aluno não está registrado no sistema"
+                Aluno alunoNome = arvNome.search(new Aluno(nome, 0, 0));
+                if (alunoNome == null) {
+                    System.out.println("Nome não encontrado.");
+                } else {
+                    System.out.println("Dados do aluno: ");
+                    System.out.println(alunoNome);
+                    arvNome.remove(alunoNome);
+                    arvMat.remove(alunoNome);
+                    System.out.print("Aluno excluído com sucesso!\n");
+                }
             }
             
-            System.out.print("Aluno excluído com sucesso!\n");
             System.out.println("Deseja excluir mais um aluno? (S, s) ou (N, n)");
             resp = scan.nextLine();
             limpaTela();
-
-
+    
         }while(!((resp.equals("N")) || (resp.equals("n"))));
-        
+    
     }
+    
+
+    
 
     public void menuEstatsAlunos(){
         limpaTela();
@@ -209,10 +237,10 @@ public class Menu {
             limpaTela();
 
             if(op == 1){
-                System.out.println("Quantidade total de elementos: " + arvNome.quantElem());
-                System.out.println("Altura da arvore: " + arvNome.calcAltura());
-                System.out.println("Aluno de Maior matricula: " + arvNome.maxVal());
-                System.out.println("Aluno de Menor matricula: " + arvNome.minVal());
+                System.out.println("Quantidade total de elementos: " + arvMat.quantElem());
+                System.out.println("Altura da arvore: " + arvMat.calcAltura());
+                System.out.println("Aluno de Maior matricula: " + arvMat.maxVal());
+                System.out.println("Aluno de Menor matricula: " + arvMat.minVal());
                 
             }else if(op == 2){
                 System.out.println("Quantidade total de elementos: " + arvNome.quantElem());
@@ -238,30 +266,6 @@ public class Menu {
 
         //importante verificar se o usuário inseriu o dado corretamente em "op", caso ele insira algo diferente dos números no menu é necessário informar o erro a ele e pedir que digite novamente
     }
-
-    public boolean escolheMenu(int opcao) throws InterruptedException, IOException{
-        switch(opcao){
-            case 1:
-                menuAddAlunos();
-                return true;
-            case 2:
-                menuBuscaAlunos();
-                return true;
-            case 3:
-                menuRrAlunos();
-                return true;
-            case 4:
-                menuEstatsAlunos();
-                return true;
-            case 5:
-                System.out.println("Saindo do programa e salvando arquivo...");
-                Thread.sleep(2000);
-                return true;
-            default:
-                return true;
-                
-        }
-    }  
 
     // Lê o arquivo desejado e monta a Árvore
     public void lerArq(){
@@ -300,7 +304,6 @@ public class Menu {
     }
 
     //adiciona ao final do arquivo os novos alunos adicionados
-    // atencion: não está adicionando no arquivo ainda em ordem crescente! sugiro a gente implementar algum método de ordenação nessa lista pronta.
     public void addNoArq() {
         System.out.println(arvMat.quantElem());
         try {
@@ -315,7 +318,7 @@ public class Menu {
                 bufferWritter.write(aluno.getMatricula() + ";");
                 bufferWritter.write(aluno.getNome() + ";");
                 bufferWritter.write(aluno.getNota() + "");
-                bufferWritter.newLine(); // adiciona uma nova linha após o conteúdo
+                bufferWritter.newLine();
             }
             
             bufferWritter.close();
@@ -324,6 +327,32 @@ public class Menu {
             e.printStackTrace();
         }
     }
+
+    public boolean escolheMenu(int opcao) throws InterruptedException, IOException{
+        switch(opcao){
+            case 1:
+                menuAddAlunos();
+                return true;
+            case 2:
+                menuBuscaAlunos();
+                return true;
+            case 3:
+                menuRrAlunos();
+                return true;
+            case 4:
+                menuEstatsAlunos();
+                return true;
+            case 5:
+                System.out.println("Saindo do programa e salvando arquivo...");
+                Thread.sleep(2000);
+                addNoArq();
+                return true;
+            default:
+                return true;
+                
+        }
+    }  
+
     
 
 }
