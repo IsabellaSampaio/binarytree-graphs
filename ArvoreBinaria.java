@@ -15,59 +15,92 @@ public class ArvoreBinaria<T> {
     public ArvoreBinaria(Comparator<T> comp){
         comparador = comp;
     }
-// ----------------------------------------
-    public void setNovoNo(T novo){
+// -------- ADICIONAR NOVO NÓ --------------------------------
+    public void addNovoNo(T novo){ // Mudei para add por pedido do professor
         Node<T> novoNo= new Node<T>(novo);
         if(this.raiz==null)
             this.raiz = novoNo;
         else
-            setNovoNo(this.raiz, novoNo);
+            addNovoNo(this.raiz, novoNo);
     }
 
-    private void setNovoNo(Node<T> r, Node<T> novo){
+    private void addNovoNo(Node<T> r, Node<T> novo){
         if(comparador.compare(novo.getValor(), r.getValor())<0){
             if(r.getFilho_esq()==null){
                 r.setFilho_Esq(novo);
             }else{
-                setNovoNo(r.getFilho_esq(), novo);
+                addNovoNo(r.getFilho_esq(), novo);
             }
         }
         if(comparador.compare(novo.getValor(), r.getValor())>0){
             if(r.getFilho_dir()==null){
                 r.setFilho_dir(novo);
             }else{
-                setNovoNo(r.getFilho_dir(), novo);
+                addNovoNo(r.getFilho_dir(), novo);
             }
         }
 
     }
-// -----------------------------------------
+
+// ------- RETORNA A ALTURA DA ÁRVORE ----------------------------------
+
+public int calcAltura(){
+    if(this.raiz!=null){
+        return calcAltura(this.raiz);
+    }
+    else{
+        return 0;
+    }
+
+}
+
+private int calcAltura(Node<T> r){
+
+    int h_dir = 0;
+    int h_esq = 0;
+
+    if(r.getFilho_esq()!=null){
+        h_esq=calcAltura(r.getFilho_esq());
+    }
+
+    if(r.getFilho_dir()!= null){
+        h_dir = calcAltura(r.getFilho_dir());
+    }
+
+    if(h_esq > h_dir){
+        return h_esq +1;
+    }
+    else{
+        return h_dir+1;
+    }
+
+
+}
+// ----- RETORNA UMA LISTA COM OS ITENS DA ARVORE EM ORDEM CRESCENTE --------
     public ArrayList<T> caminhaEmOrdem(){
         ArrayList<T> lista = new ArrayList<T>();
         if(this.raiz!=null){
-            lista = caminhaEmOrdemRec(this.raiz, lista);
-            lista.add(this.raiz.getValor());
+            caminhaEmOrdemRec(this.raiz, lista);
            
         }
 
         return lista;
     }
 
-    private ArrayList<T> caminhaEmOrdemRec(Node<T> r, ArrayList<T> lista){
+    private void caminhaEmOrdemRec(Node<T> r, ArrayList<T> lista){
         if(r.getFilho_esq()!=null){
             caminhaEmOrdemRec(r.getFilho_esq(), lista);
-            lista.add(r.getFilho_esq().getValor()); 
+
         }
+        lista.add(r.getValor());
             
         if(r.getFilho_dir()!= null){
             caminhaEmOrdemRec(r.getFilho_dir(), lista);
-            lista.add(r.getFilho_dir().getValor());
         }
         
-        return lista;
         
     }
-// ----------------------------------------------
+// -------- RETORNA UMA LISTA COM OS ITENS DA ÁRVORE ORGANIZADOS POR NÍVEL ------------
 
 public ArrayList<T> caminhaEmNivel(){
     lista = new ArrayList<T>();
@@ -97,33 +130,7 @@ private void caminhaEmNivelRec(ArrayList<Node<T>> fila){
     
 }
 
-// -----------------------------------------
-public ArrayList<T> getListaOrdenada(){
-    ArrayList<T> lista = new ArrayList<T>();
-    if(this.raiz!=null){
-        lista = getListaOrdenada(this.raiz, lista);
-    }
-
-    return lista;
-}
-
-private ArrayList<T> getListaOrdenada(Node<T> r, ArrayList<T> lista){
-    if(r.getFilho_esq()!=null){
-        lista = getListaOrdenada(r.getFilho_esq(), lista);
-    }
-    
-    lista.add(r.getValor());
-
-    if(r.getFilho_dir()!= null){
-
-        lista = getListaOrdenada(r.getFilho_dir(), lista);
-        
-    }
-    
-    return lista;
-    
-}
-// ----------------------------------------------
+// ------------ RETORNA A QUANTIDADE DE ELEMENTOS DA ARVORE ----------------
 
     public int quantElem(){
         return quantElem(this.raiz);
@@ -137,6 +144,8 @@ private ArrayList<T> getListaOrdenada(Node<T> r, ArrayList<T> lista){
         }
         
     }
+
+// ----------- RETORNA A RAIZ DA ARVORE ----------------
     
     public Node<T> getRaiz() {
         return raiz;
@@ -144,23 +153,7 @@ private ArrayList<T> getListaOrdenada(Node<T> r, ArrayList<T> lista){
 
 
 
-// -------------------------------------------------------------
-
-    public void retornaValorArv(){
-        if(this.raiz != null){
-            retornaValorArv(this.raiz);
-        }
-    }
-
-    private void retornaValorArv(Node<T> raiz) {
-        if (raiz != null) {
-            System.out.println(raiz.getValor());
-            retornaValorArv(raiz.getFilho_esq());
-            retornaValorArv(raiz.getFilho_dir());
-        }
-    } 
-
-// -----------------------------------------
+// ------------ REMOVE NÓ RECEBIDO COMO PARÂMETRO -----------------------------
 
     public void remove(T valor) {
         Node<T> novoNo = new Node<T>(valor);
@@ -191,7 +184,7 @@ private ArrayList<T> getListaOrdenada(Node<T> r, ArrayList<T> lista){
         return no;
     }
 
-// ---------------------------------------------------------------------
+// ------------ BUSCA NÓ DESEJADO ----------------------
 
     public int busca(T valor){
         Node<T> r = this.raiz;
@@ -219,47 +212,48 @@ private ArrayList<T> getListaOrdenada(Node<T> r, ArrayList<T> lista){
     }
 
 
-// ----------------------------------------------------------------------
+// ------------- RETORNA MENOR E MAIOR VALOR DA ARVORE --------------------
 
-    //retorna o menor valor da árvore 
+
     public T minVal(){
-        while(this.raiz.getFilho_esq() != null){
-            this.raiz = this.raiz.getFilho_esq();
+        T min = null;
+        if(this.raiz!=null){
+            min = minVal(this.raiz, min);
         }
 
-        return this.raiz.getValor();
+        return min;
     }
 
-    //retorna o maior valor da árvore
-    //problema: retornando o mesmo valor para maior e menor valor no caso de árvore de matrícula
+    private T minVal(Node<T> r, T min){
+        if(r.getFilho_esq() == null){
+            min = r.getValor();
+        }
+        else{
+            min = minVal(r.getFilho_esq(), min);
+        }
+
+        return min;
+
+    }
+
     public T maxVal(){
-        while(this.raiz.getFilho_dir() != null){
-            this.raiz = this.raiz.getFilho_dir();
+        T max = null;
+        if (this.raiz != null) {
+            max = maxVal(this.raiz, max);
         }
-
-        return this.raiz.getValor();
+        return max;
     }
 
-
-    public void maiorMenor(){
-        Node<T> menorVal = this.raiz;
-        Node<T> maiorVal = this.raiz;
-
-        if (this.raiz == null) {
-            System.out.println("Árvore não existe, raiz nula");
-
-        }else {
-            while(menorVal.getFilho_esq() != null){
-                menorVal = menorVal.getFilho_esq();
-            }
-            
-            while(maiorVal.getFilho_dir() != null){
-                maiorVal = maiorVal.getFilho_dir();
-            }
-            
-            System.out.println("O menor valor na árvore é: " + menorVal.getValor());
-            System.out.println("O maior valor na árvore é: " + maiorVal.getValor());
+    private T maxVal(Node<T> r, T max){
+        if(r.getFilho_dir() == null){
+            max = r.getValor();
         }
+        else{
+            max = maxVal(r.getFilho_dir(), max);
+        }   
+        
+        return max;
+
     }
 
 } // fecha classe

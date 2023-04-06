@@ -23,7 +23,7 @@ public class Menu {
     }
 
     public ArrayList<Aluno> getAlunos() {
-        return arvMat.getListaOrdenada();
+        return arvNome.caminhaEmOrdem();
     }
 
     public static void limpaTela() {
@@ -48,7 +48,7 @@ public class Menu {
         System.out.println("[1] Adicionar aluno");
         System.out.println("[2] Buscar aluno");
         System.out.println("[3] Excluir aluno");
-        System.out.println("[4] Exibir estatísticas do aluno");
+        System.out.println("[4] Exibir estatísticas dos alunos");
         System.out.println("[5] Sair");
         System.out.println("_________________________________________\n");
 
@@ -81,8 +81,8 @@ public class Menu {
                 nota = scan.nextInt();
                 scan.nextLine();
                 
-                arvMat.setNovoNo(new Aluno(nome, mat, nota));
-                arvNome.setNovoNo(new Aluno(nome, mat, nota));
+                arvMat.addNovoNo(new Aluno(nome, mat, nota));
+                arvNome.addNovoNo(new Aluno(nome, mat, nota));
         
                 System.out.print("Aluno adicionado com sucesso!\n");
 
@@ -199,30 +199,29 @@ public class Menu {
     public void menuEstatsAlunos(){
         limpaTela();
         int op = 0;
-        int mat = 0;
-        String nome = "";
         String resp = "";
 
         do{
-            System.out.println("[1] Estatistica do aluno por matrícula");
-            System.out.println("[2] Estatistica do aluno por nome");
+            System.out.println("[1] Estatisticas por matrícula");
+            System.out.println("[2] Estatisticas por nome");
             op = scan.nextInt();
             scan.nextLine();
             limpaTela();
 
             if(op == 1){
-                System.out.println("Informe a matrícula do aluno que deseja gerar as estatísticas: ");
-                mat = scan.nextInt();
-                scan.nextLine();
-                //verifica se o aluno está na árvore, se sim retorna os dados do aluno para o usuário verificar, se não retorna "Aluno não está registrado no sistema"
-    
+                System.out.println("Quantidade total de elementos: " + arvNome.quantElem());
+                System.out.println("Altura da arvore: " + arvNome.calcAltura());
+                System.out.println("Aluno de Maior matricula: " + arvNome.maxVal());
+                System.out.println("Aluno de Menor matricula: " + arvNome.minVal());
+                
             }else if(op == 2){
-                System.out.println("Informe o nome do aluno que deseja gerar as estatísticas: ");
-                nome = scan.nextLine();
-                //verifica se o aluno está na árvore, se sim retorna os dados do aluno para o usuário verificar, se não retorna "Aluno não está registrado no sistema"
+                System.out.println("Quantidade total de elementos: " + arvNome.quantElem());
+                System.out.println("Altura da arvore: " + arvNome.calcAltura());
+                System.out.println("Ultimo aluno na ordem alfabetica: " + arvNome.maxVal());
+                System.out.println("Primeiro aluno na ordem alfabetica: " + arvNome.minVal());
             }
 
-            System.out.println("Deseja gerar as estatisticas de mais um aluno? (S, s) ou (N, n)");
+            System.out.println("Deseja gerar mais estatisticas? (S, s) ou (N, n)");
             resp = scan.nextLine();
 
             limpaTela();
@@ -286,8 +285,8 @@ public class Menu {
                 int tam = aluno.length;
                 if(tam>1){
                     Aluno nodeAluno = new Aluno(aluno[1],Integer.parseInt(aluno[0]), Integer.parseInt(aluno[2]));
-                    arvNome.setNovoNo(nodeAluno);
-                    arvMat.setNovoNo(nodeAluno);
+                    arvNome.addNovoNo(nodeAluno);
+                    arvMat.addNovoNo(nodeAluno);
                     
                 }
             }
