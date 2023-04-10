@@ -254,9 +254,9 @@ private void caminhaEmNivel(ArrayList<Node<T>> fila, ArrayList<T> lista){
     }
 
 
-// Descrição aqui.
-
-    
+//O método faz, de maneira recursiva, uma busca pelo elemento do tipo T (genérico) e caso este elemento esteja na árvore então o remove. 
+//Caso o nó tenha filhos, o então é definido um nó substituto como o menor valor na subárvore à direita do nó a ser removido e o remove recursivamente, atribuindo seu valor ao nó original.
+//No final, a função retorna a raiz da árvore atualizada. 
 
 // -----------------------------------------------------------------------------------------------
 /**
@@ -290,7 +290,8 @@ private void caminhaEmNivel(ArrayList<Node<T>> fila, ArrayList<T> lista){
 
     
 
-// Descrição aqui.
+// O método realiza uma busca iterativa por um valor do tipo T (genérico). A função percorre a árvore comparando o valor com a raiz e os valores dos nós filhos se deslocando para a subárvore correta. 
+//Se o valor for encontrado, a função retorna o nó contendo o valor e exibe a quantidade de nós percorridos. Caso contrário, se a árvore estiver vazia ou o valor não estiver presente na árvore, a função retorna null. 
 
 // ----------------------------------------------------
 
@@ -344,7 +345,7 @@ private void caminhaEmNivel(ArrayList<Node<T>> fila, ArrayList<T> lista){
 
 
 //Para encontrar o maior valor o método percorre a árvore até seu nó mais a direita
-//e para encontrar o mnor a árvore é percorrida até seu nó mais a esquerda.
+//e para encontrar o menor a árvore é percorrida até seu nó mais a esquerda.
 
 
 } // fecha classe
