@@ -1,3 +1,6 @@
+/**
+ * Comparador por Matricula
+ */
 
 import java.util.Comparator;
 public class ComparadorPorMatricula implements Comparator<Aluno> {

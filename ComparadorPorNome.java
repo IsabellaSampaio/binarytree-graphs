@@ -1,3 +1,6 @@
+/**
+ * Comparador por Nome
+ */
 
 import java.util.Comparator;
 public class ComparadorPorNome implements Comparator<Aluno> {
