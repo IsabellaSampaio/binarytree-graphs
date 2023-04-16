@@ -82,7 +82,7 @@ public class Menu {
                 System.out.println("Verificando...");
 
                 // Definição de chamada de exceção
-                if(arvMat.busca(new Aluno("", mat, 0)) == null){
+                if(arvMat.busca(new Aluno("", mat, 0)) != null){
                     throw new Exception("Matricula já existe");
                 }
 
