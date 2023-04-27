@@ -13,6 +13,7 @@ import java.io.FileWriter;
 public class Menu {
     private Scanner scan;
     private ArvoreBinaria<Aluno> arvMat;
+    private ArvoreAVL<Aluno> arvMatAVL;
     private ArvoreBinaria<Aluno> arvNome;
 
 
@@ -21,6 +22,7 @@ public class Menu {
         // Criação das árvores passando como parâmetro o comparador respectivos.
         arvNome = new ArvoreBinaria<Aluno>(new ComparadorPorNome());
         arvMat = new ArvoreBinaria<Aluno>(new ComparadorPorMatricula());
+        arvMatAVL = new ArvoreAVL<Aluno>(new ComparadorPorMatricula());
     }
 
     /**
@@ -93,6 +95,7 @@ public class Menu {
                 nota = scan.nextInt();
                 scan.nextLine();
                 
+                arvMatAVL.addNovoNo(new Aluno(nome, mat, nota));
                 arvMat.addNovoNo(new Aluno(nome, mat, nota));
                 arvNome.addNovoNo(new Aluno(nome, mat, nota));
         
@@ -327,6 +330,7 @@ public class Menu {
                     Aluno nodeAluno = new Aluno(aluno[1],Integer.parseInt(aluno[0]), Integer.parseInt(aluno[2]));
                     arvNome.addNovoNo(nodeAluno);
                     arvMat.addNovoNo(nodeAluno);
+                    arvMatAVL.addNovoNo(nodeAluno);
                     
                 }
             }
@@ -390,6 +394,7 @@ public class Menu {
                 Thread.sleep(2000);
                 criaArq();
                 return true;
+                
             default:
                 return true;
                 

@@ -43,7 +43,7 @@ public class ArvoreBinaria<T> {
 // enviando como parâmetro a raiz da árvore e o novo nó que se deseja inserir.
 
 
-    private void addNovoNo(Node<T> r, Node<T> novo){
+    protected void addNovoNo(Node<T> r, Node<T> novo){
         if(comparador.compare(novo.getValor(), r.getValor())<0){
             if(r.getFilho_esq()==null){
                 r.setFilho_Esq(novo);
@@ -89,25 +89,26 @@ public class ArvoreBinaria<T> {
 // Se a raiz for null o método retorna 0, caso contrário o método recursivo calcAltura é chamado enviando a raiz como parâmetro.
 
 
-    private int calcAltura(Node<T> r){
+    protected int calcAltura(Node<T> r){
 
         int h_dir = 0;
         int h_esq = 0;
 
         if(r.getFilho_esq()!=null){
-            h_esq = calcAltura(r.getFilho_esq());
+            h_esq = calcAltura(r.getFilho_esq())+1;
         }
 
         if(r.getFilho_dir()!= null){
-            h_dir = calcAltura(r.getFilho_dir());
+            h_dir = calcAltura(r.getFilho_dir())+1;
         }
 
         if(h_esq > h_dir){
-            return h_esq + 1;
+            return h_esq;
         }
         else{
-            return h_dir + 1;
+            return h_dir;
         }
+
 
         
 

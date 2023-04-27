@@ -2,6 +2,7 @@ public class Node<T>{
     protected T valor;
     protected Node<T> filho_esq;
     protected Node<T> filho_dir;
+    protected int fb; // Fator de Balanceamento
 
     public Node(T novoValor){
         valor=novoValor;
@@ -31,6 +32,13 @@ public class Node<T>{
         this.valor = valor;
     }
 
+    public void setfb(int fb) {
+        this.fb = fb;
+    }
+
+    public int getFb() {
+        return fb;
+    }
 
 
 
