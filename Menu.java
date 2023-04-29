@@ -49,7 +49,7 @@ public class Menu {
      * Imprime menu de funcionalidades disponíveis
      */
     public void menu() throws InterruptedException, IOException{
-        limpaTela();
+       
         System.out.println("BEM-VINDO(A)\n");
         System.out.println("_________________________________________\n");
         System.out.println("[1] Adicionar aluno");
@@ -57,6 +57,7 @@ public class Menu {
         System.out.println("[3] Excluir aluno");
         System.out.println("[4] Exibir estatísticas dos alunos");
         System.out.println("[5] Sair");
+        System.out.println("[6] Imprimir Arvores");
         System.out.println("_________________________________________\n");
 
     }
@@ -394,7 +395,13 @@ public class Menu {
                 Thread.sleep(2000);
                 criaArq();
                 return true;
-                
+            case 6:
+                System.out.println("*Arvore AVL*");
+                arvMatAVL.printIndented(arvMatAVL.getRaiz(), "", true);
+                System.out.println("*Arvore Binaria*");
+                arvMat.printIndented(arvMat.getRaiz(), "", true);
+                System.out.println("Aperte enter pra continuar.");
+                scan.nextLine();
             default:
                 return true;
                 

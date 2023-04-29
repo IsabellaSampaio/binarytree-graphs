@@ -34,7 +34,7 @@ public class ArvoreBinaria<T> {
         if(this.raiz==null)
             this.raiz = novoNo;
         else
-            addNovoNo(this.raiz, novoNo);
+            this.raiz = addNovoNo(this.raiz, novoNo);
     }
 
 
@@ -43,7 +43,7 @@ public class ArvoreBinaria<T> {
 // enviando como parâmetro a raiz da árvore e o novo nó que se deseja inserir.
 
 
-    protected void addNovoNo(Node<T> r, Node<T> novo){
+    protected Node<T> addNovoNo(Node<T> r, Node<T> novo){
         if(comparador.compare(novo.getValor(), r.getValor())<0){
             if(r.getFilho_esq()==null){
                 r.setFilho_Esq(novo);
@@ -59,6 +59,7 @@ public class ArvoreBinaria<T> {
             }
         }
 
+        return r;
     }
 
 // Usando o comparador que a árvore possui, o método percorre a árvore guiando o nó até o seu lugar.
@@ -348,5 +349,28 @@ private void caminhaEmNivel(ArrayList<Node<T>> fila, ArrayList<T> lista){
 //Para encontrar o maior valor o método percorre a árvore até seu nó mais a direita
 //e para encontrar o menor a árvore é percorrida até seu nó mais a esquerda.
 
+public void printIndented(Node<T> node, String indent, boolean last) {
+    if(raiz != null){
+        System.out.print(indent);
+        if (last) {
+            System.out.print("└─");
+            indent += "  ";
+        } else {
+            System.out.print("├─");
+            indent += "│ ";
+        }
+        System.out.println(node.getValor());
+
+        if (node.getFilho_dir() != null) {
+            printIndented(node.getFilho_dir(), indent, node.getFilho_esq() == null);
+        }
+
+        if (node.getFilho_esq() != null) {
+            printIndented(node.getFilho_esq(), indent, true);
+        }
+    }else{
+        System.out.println("Árvore está vazia!");
+    }
+     }
 
 } // fecha classe
