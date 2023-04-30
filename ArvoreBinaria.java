@@ -96,19 +96,18 @@ public class ArvoreBinaria<T> {
         int h_dir = 0;
         int h_esq = 0;
 
-        if(r.getFilho_esq()!=null){
-            h_esq = calcAltura(r.getFilho_esq())+1;
-        }
-
-        if(r.getFilho_dir()!= null){
-            h_dir = calcAltura(r.getFilho_dir())+1;
+        if(r==null)
+            return -1;
+        else{
+            h_esq = calcAltura(r.getFilho_esq());
+            h_dir = calcAltura(r.getFilho_dir());
         }
 
         if(h_esq > h_dir){
-            return h_esq;
+            return h_esq+1;
         }
         else{
-            return h_dir;
+            return h_dir+1;
         }
 
 

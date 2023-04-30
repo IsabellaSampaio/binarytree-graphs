@@ -6,8 +6,9 @@ public class ArvoreAVL<T> extends ArvoreBinaria<T>{
     }
 
     private void calcfb(Node<T> r){
-        int h_dir = 0;
-        int h_esq = 0;
+        int h_dir = -1;
+        int h_esq = -1;
+
         
         if(r.getFilho_dir()!=null){
             h_dir = calcAltura(r.getFilho_dir());

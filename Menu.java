@@ -343,6 +343,8 @@ public class Menu {
                     arvMatAVL.addNovoNo(nodeAluno);
                     arvNomeAVL.addNovoNo(nodeAluno);
 
+                    arvMatAVL.printIndented(arvMatAVL.getRaiz(), "", true);
+
                     
                 }
             }
