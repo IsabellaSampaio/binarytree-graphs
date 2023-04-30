@@ -85,4 +85,31 @@ public class ArvoreAVL<T> extends ArvoreBinaria<T>{
         r.setFilho_dir(rotacaoDir(r.getFilho_dir()));
         return rotacaoEsq(r);
     }
+    
+    
+    @Override
+    public T busca(T valor){
+        Node<T> r = this.raiz;
+        int contador = 0;
+
+        while(r != null){
+            
+            if(comparador.compare(r.getValor(), valor) == 0){
+                System.out.println("Quantidade de elementos percorridos na árvore AVL: " + contador);
+                return r.getValor();
+            }
+            
+            contador+=1;
+            if(comparador.compare(r.getValor(), valor) < 0){
+                    r = r.getFilho_dir();
+            }
+
+            else if(comparador.compare(r.getValor(), valor) > 0){
+                    r = r.getFilho_esq();
+            }
+
+        }
+
+        return null;
+    }
 }

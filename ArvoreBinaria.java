@@ -10,6 +10,7 @@ import java.util.Comparator;
 public class ArvoreBinaria<T> {
     protected Node<T> raiz;
     protected Comparator<T> comparador;
+    //adicionar altura no nó
 
     public ArvoreBinaria(Comparator<T> comp){
         comparador = comp;
@@ -272,7 +273,7 @@ private void caminhaEmNivel(ArrayList<Node<T>> fila, ArrayList<T> lista){
         while(r != null){
             
             if(comparador.compare(r.getValor(), valor) == 0){
-                System.out.println("Quantidade de elementos percorridos: " + contador);
+                System.out.println("Quantidade de elementos percorridos na árvore binária: " + contador);
                 return r.getValor();
             }
             

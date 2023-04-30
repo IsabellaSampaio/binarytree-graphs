@@ -14,6 +14,7 @@ public class Menu {
     private Scanner scan;
     private ArvoreBinaria<Aluno> arvMat;
     private ArvoreAVL<Aluno> arvMatAVL;
+    private ArvoreAVL<Aluno> arvNomeAVL;
     private ArvoreBinaria<Aluno> arvNome;
 
 
@@ -23,6 +24,7 @@ public class Menu {
         arvNome = new ArvoreBinaria<Aluno>(new ComparadorPorNome());
         arvMat = new ArvoreBinaria<Aluno>(new ComparadorPorMatricula());
         arvMatAVL = new ArvoreAVL<Aluno>(new ComparadorPorMatricula());
+        arvNomeAVL = new ArvoreAVL<Aluno>(new ComparadorPorNome());
     }
 
     /**
@@ -140,24 +142,29 @@ public class Menu {
                     mat = scan.nextInt();
                     scan.nextLine();
                     Aluno alunoMat = arvMat.busca(new Aluno("", mat, 0));
+                    Aluno alunoMatAvl = arvMatAVL.busca(new Aluno("", mat, 0));
 
                     if(alunoMat == null){
                         System.out.println("Matrícula não encontrada");
                     }else{
                         System.out.println("Dados do aluno: ");
                         System.out.println(alunoMat);
+
                     }
         
                 }else if(op == 2){
                     System.out.println("Informe o nome do aluno que deseja buscar: ");
                     nome = scan.nextLine();
                     Aluno alunoNome = arvNome.busca(new Aluno(nome, 0, 0));
+                    Aluno alunoNomeAvl = arvNomeAVL.busca(new Aluno(nome, 0, 0));
 
                     if(alunoNome == null){
                         System.out.println("Nome não encontrado");
                     }else{
                         System.out.println("Dados do aluno: ");
                         System.out.println(alunoNome);
+                        System.out.println(alunoNomeAvl);
+
                     }
 
                 }else{
@@ -266,13 +273,15 @@ public class Menu {
 
             if(op == 1){
                 System.out.println("Quantidade total de elementos: " + arvMat.quantElem());
-                System.out.println("Altura da arvore: " + arvMat.calcAltura());
+                System.out.println("Altura da arvore binária: " + arvMat.calcAltura());
+                System.out.println("Altura da arvore AVL: " + arvMatAVL.calcAltura());
                 System.out.println("Aluno de Maior matricula: " + arvMat.maxVal());
                 System.out.println("Aluno de Menor matricula: " + arvMat.minVal());
                 
             }else if(op == 2){
                 System.out.println("Quantidade total de elementos: " + arvNome.quantElem());
-                System.out.println("Altura da arvore: " + arvNome.calcAltura());
+                System.out.println("Altura da arvore binária: " + arvNome.calcAltura());
+                System.out.println("Altura da arvore AVL: " + arvNomeAVL.calcAltura());
                 System.out.println("Ultimo aluno na ordem alfabetica: " + arvNome.maxVal());
                 System.out.println("Primeiro aluno na ordem alfabetica: " + arvNome.minVal());
             }else{
@@ -332,6 +341,8 @@ public class Menu {
                     arvNome.addNovoNo(nodeAluno);
                     arvMat.addNovoNo(nodeAluno);
                     arvMatAVL.addNovoNo(nodeAluno);
+                    arvNomeAVL.addNovoNo(nodeAluno);
+
                     
                 }
             }
