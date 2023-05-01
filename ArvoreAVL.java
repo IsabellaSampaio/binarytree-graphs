@@ -11,16 +11,17 @@ public class ArvoreAVL<T> extends ArvoreBinaria<T>{
 
         
         if(r.getFilho_dir()!=null){
-            h_dir = calcAltura(r.getFilho_dir());
+            h_dir = r.getFilho_dir().getAltura();
         }
         if(r.getFilho_esq()!=null){
-            h_esq = calcAltura(r.getFilho_esq());
+            h_esq = r.getFilho_esq().getAltura();
         }
             
         r.setfb(h_dir-h_esq);
     }
 
 
+    @Override
     protected Node<T> addNovoNo(Node<T> r, Node<T> novo){
         if(comparador.compare(novo.getValor(), r.getValor())<0){
             if(r.getFilho_esq()==null)
@@ -34,24 +35,25 @@ public class ArvoreAVL<T> extends ArvoreBinaria<T>{
             else
                 r.setFilho_dir(addNovoNo(r.getFilho_dir(), novo));
         }
-            calcfb(r);
-            System.out.println(r.getFb());
-            if(r.getFb()>1){
-                if(r.getFilho_dir().getFb()>0)
-                    r = rotacaoEsq(r);
-                else
-                    r = rotacaoDirEsq(r);
-                
-            }
-            else if(r.getFb()<-1){
-                if(r.getFilho_esq().getFb()<0)
-                    r=rotacaoDir(r);
-                else
-                    r=rotacaoEsqDir(r);
-            }
-
-            return r;
+        r.setAltura(maiorAltura(r.getFilho_dir(), r.getFilho_esq()));
+        calcfb(r);
+        //System.out.println(r.getFb());
+        if(r.getFb()>1){
+            if(r.getFilho_dir().getFb()>0)
+                r = rotacaoEsq(r);
+            else
+                r = rotacaoDirEsq(r);
+            
         }
+        else if(r.getFb()<-1){
+            if(r.getFilho_esq().getFb()<0)
+                r=rotacaoDir(r);
+            else
+                r=rotacaoEsqDir(r);
+        }
+        //System.out.println("Altura: " + r.getAltura());
+        return r;
+    }
 
 
 
@@ -60,8 +62,12 @@ public class ArvoreAVL<T> extends ArvoreBinaria<T>{
         Node<T> f = r.getFilho_esq();
         r.setFilho_Esq(f.getFilho_dir());
         f.setFilho_dir(r);
+
+        r.setAltura(maiorAltura(r.getFilho_dir(), r.getFilho_esq()));
+        f.setAltura(maiorAltura(f.getFilho_dir(), f.getFilho_esq()));
         calcfb(r);
         calcfb(f);
+
 
         return f;
 
@@ -71,6 +77,11 @@ public class ArvoreAVL<T> extends ArvoreBinaria<T>{
         Node<T> f = r.getFilho_dir();
         r.setFilho_dir(f.getFilho_esq());
         f.setFilho_Esq(r);
+
+        
+        
+        r.setAltura(maiorAltura(r.getFilho_dir(), r.getFilho_esq()));
+        f.setAltura(maiorAltura(f.getFilho_dir(), f.getFilho_esq()));
         calcfb(r);
         calcfb(f);
 

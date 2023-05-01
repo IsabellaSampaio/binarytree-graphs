@@ -220,6 +220,8 @@ public class Menu {
                         System.out.println(alunoMat);
                         arvMat.remove(alunoMat);
                         arvNome.remove(alunoMat);
+                        arvMatAVL.remove(alunoMat);
+                        arvNomeAVL.remove(alunoMat);
                         System.out.print("Aluno excluído com sucesso!\n");
         
                     }
@@ -273,15 +275,15 @@ public class Menu {
 
             if(op == 1){
                 System.out.println("Quantidade total de elementos: " + arvMat.quantElem());
-                System.out.println("Altura da arvore binária: " + arvMat.calcAltura());
-                System.out.println("Altura da arvore AVL: " + arvMatAVL.calcAltura());
+                System.out.println("Altura da arvore binária: " + arvMat.getRaiz().getAltura());
+                System.out.println("Altura da arvore AVL: " + arvMatAVL.getRaiz().getAltura());
                 System.out.println("Aluno de Maior matricula: " + arvMat.maxVal());
                 System.out.println("Aluno de Menor matricula: " + arvMat.minVal());
                 
             }else if(op == 2){
                 System.out.println("Quantidade total de elementos: " + arvNome.quantElem());
-                System.out.println("Altura da arvore binária: " + arvNome.calcAltura());
-                System.out.println("Altura da arvore AVL: " + arvNomeAVL.calcAltura());
+                System.out.println("Altura da arvore binária: " + arvNome.getRaiz().getAltura());
+                System.out.println("Altura da arvore AVL: " + arvNomeAVL.getRaiz().getAltura());
                 System.out.println("Ultimo aluno na ordem alfabetica: " + arvNome.maxVal());
                 System.out.println("Primeiro aluno na ordem alfabetica: " + arvNome.minVal());
             }else{
@@ -343,7 +345,7 @@ public class Menu {
                     arvMatAVL.addNovoNo(nodeAluno);
                     arvNomeAVL.addNovoNo(nodeAluno);
 
-                    arvMatAVL.printIndented(arvMatAVL.getRaiz(), "", true);
+                    //arvMatAVL.printIndented(arvMatAVL.getRaiz(), "", true);
 
                     
                 }
@@ -410,9 +412,14 @@ public class Menu {
                 return true;
             case 6:
                 System.out.println("*Arvore AVL*");
+                System.out.println("Altura da árvore: " + arvMatAVL.getRaiz().getAltura());
+                System.out.println("Altura da árvore: " + arvMatAVL.calcAltura());
+                
+                
                 arvMatAVL.printIndented(arvMatAVL.getRaiz(), "", true);
                 System.out.println("*Arvore Binaria*");
                 arvMat.printIndented(arvMat.getRaiz(), "", true);
+                
                 System.out.println("Aperte enter pra continuar.");
                 scan.nextLine();
             default:

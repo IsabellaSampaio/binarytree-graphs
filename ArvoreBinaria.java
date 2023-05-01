@@ -59,7 +59,7 @@ public class ArvoreBinaria<T> {
                 addNovoNo(r.getFilho_dir(), novo);
             }
         }
-
+        r.setAltura(maiorAltura(r.getFilho_dir(), r.getFilho_esq()));
         return r;
     }
 
@@ -74,7 +74,39 @@ public class ArvoreBinaria<T> {
 // --------------------------------------------------
 /**
  * Retorna a Altura da Árvore
+ * 
  */
+
+//Primeiro método de calcular altura 
+
+    public int maiorAltura(Node<T> dir, Node<T> esq) {
+        if (this.raiz == null) {
+            return -1;
+        }
+        else if (dir == null && esq == null) {
+            return 0;
+        }
+        else if (dir == null) {
+            return esq.getAltura() + 1;
+        }
+        else if (esq == null) {
+            return dir.getAltura() + 1;
+        }
+        else {
+            if (esq.getAltura() > dir.getAltura()) {
+                return esq.getAltura() + 1;
+            }
+            else {
+                return dir.getAltura() + 1;
+            }
+        }
+    }
+
+//Aqui fazemos uma comparação entre dois nos e retornamos a maior altura entre eles + 1. 
+
+
+
+//segundo método de calcular altura
 
     public int calcAltura(){
         if(this.raiz!=null){
@@ -252,6 +284,7 @@ private void caminhaEmNivel(ArrayList<Node<T>> fila, ArrayList<T> lista){
                 no.setFilho_dir(removeRec(no.getFilho_dir(), min));
             }
         }
+        no.setAltura(maiorAltura(no.getFilho_dir(), no.getFilho_esq()));
         return no;
     }
 
