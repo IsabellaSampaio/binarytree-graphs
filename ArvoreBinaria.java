@@ -52,13 +52,17 @@ public class ArvoreBinaria<T> {
                 addNovoNo(r.getFilho_esq(), novo);
             }
         }
-        if(comparador.compare(novo.getValor(), r.getValor())>0){
+        else if(comparador.compare(novo.getValor(), r.getValor())>0){
             if(r.getFilho_dir()==null){
                 r.setFilho_dir(novo);
             }else{
                 addNovoNo(r.getFilho_dir(), novo);
             }
         }
+        else{
+            return r;
+        }
+
         r.setAltura(maiorAltura(r.getFilho_dir(), r.getFilho_esq()));
         return r;
     }

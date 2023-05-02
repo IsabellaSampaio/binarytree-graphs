@@ -29,11 +29,14 @@ public class ArvoreAVL<T> extends ArvoreBinaria<T>{
             else
                 r.setFilho_Esq(addNovoNo(r.getFilho_esq(), novo));
         }
-        if(comparador.compare(novo.getValor(), r.getValor())>0){
+        else if(comparador.compare(novo.getValor(), r.getValor())>0){
             if(r.getFilho_dir()==null)
                 r.setFilho_dir(novo);
             else
                 r.setFilho_dir(addNovoNo(r.getFilho_dir(), novo));
+        }
+        else{
+            return r;
         }
         r.setAltura(maiorAltura(r.getFilho_dir(), r.getFilho_esq()));
         calcfb(r);
