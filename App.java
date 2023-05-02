@@ -6,7 +6,7 @@ import java.io.IOException;
  */
 
 public class App {
-
+    
     public static void main(String[] args) throws InterruptedException, IOException{
 
         Scanner scan = new Scanner(System.in);

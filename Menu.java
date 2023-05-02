@@ -30,6 +30,7 @@ public class Menu {
     /**
      * Chama a função que percorrerá a ávore e devolverá uma lista com os alunos (em NIVEL ou ORDEM de matricula, ou nome, dependendo da função chamada dentro dela).
      */
+    
     public ArrayList<Aluno> getAlunos() {
         return arvMat.caminhaEmOrdem(); // Função que devolve uma lista com alunos em Ordem Crescente de matricula
     }
@@ -50,6 +51,7 @@ public class Menu {
     /**
      * Imprime menu de funcionalidades disponíveis
      */
+
     public void menu() throws InterruptedException, IOException{
        
         System.out.println("BEM-VINDO(A)\n");
@@ -59,7 +61,6 @@ public class Menu {
         System.out.println("[3] Excluir aluno");
         System.out.println("[4] Exibir estatísticas dos alunos");
         System.out.println("[5] Sair");
-        System.out.println("[6] Imprimir Arvores");
         System.out.println("_________________________________________\n");
 
     }
@@ -67,6 +68,7 @@ public class Menu {
     /**
      * Realiza os inputs, outputs e chamadas de métodos necessários para cadastro de alunos.
      */
+
     public void menuAddAlunos(){
 
         int mat = 0;
@@ -142,7 +144,7 @@ public class Menu {
                     mat = scan.nextInt();
                     scan.nextLine();
                     Aluno alunoMat = arvMat.busca(new Aluno("", mat, 0));
-                    Aluno alunoMatAvl = arvMatAVL.busca(new Aluno("", mat, 0));
+                    arvMatAVL.busca(new Aluno("", mat, 0));
 
                     if(alunoMat == null){
                         System.out.println("Matrícula não encontrada");
@@ -156,14 +158,13 @@ public class Menu {
                     System.out.println("Informe o nome do aluno que deseja buscar: ");
                     nome = scan.nextLine();
                     Aluno alunoNome = arvNome.busca(new Aluno(nome, 0, 0));
-                    Aluno alunoNomeAvl = arvNomeAVL.busca(new Aluno(nome, 0, 0));
+                    arvNomeAVL.busca(new Aluno(nome, 0, 0));
 
                     if(alunoNome == null){
                         System.out.println("Nome não encontrado");
                     }else{
                         System.out.println("Dados do aluno: ");
                         System.out.println(alunoNome);
-                        System.out.println(alunoNomeAvl);
 
                     }
 
@@ -191,6 +192,7 @@ public class Menu {
     /**
      * Realiza os inputs, outputs e chamadas de métodos necessários para remoção de alunos.
      */
+
     public void menuRrAlunos(){
         limpaTela();
         int op = 0;
@@ -256,10 +258,10 @@ public class Menu {
     
     }
     
-
     /**
      * Realiza os inputs, outputs e chamadas de métodos necessários para exibir as estatisticas das árvores.
      */
+
     public void menuEstatsAlunos(){
         limpaTela();
         int op = 0;
@@ -307,6 +309,7 @@ public class Menu {
     /**
      * Retorna a opção de funcionalidade escolhida pelo usuário
      */
+
     public int lerOpcaoMenu() throws InterruptedException, IOException{
         System.out.println("-> ESCOLHA UMA OPÇÃO: ");
         int opcao = scan.nextInt();
@@ -358,11 +361,11 @@ public class Menu {
 
 
     }
-
-    
+ 
     /**
      * Cria um arquivo com os nomes dos alunos organizados em ordem crescente de matricula.
      */
+
     public void criaArq() {
         System.out.println(arvMat.quantElem());
         try {
@@ -410,24 +413,10 @@ public class Menu {
                 Thread.sleep(2000);
                 criaArq();
                 return true;
-            case 6:
-                System.out.println("*Arvore AVL*");
-                System.out.println("Altura da árvore: " + arvMatAVL.getRaiz().getAltura());
-                System.out.println("Altura da árvore: " + arvMatAVL.calcAltura());
-                
-                
-                arvMatAVL.printIndented(arvMatAVL.getRaiz(), "", true);
-                System.out.println("*Arvore Binaria*");
-                arvMat.printIndented(arvMat.getRaiz(), "", true);
-                
-                System.out.println("Aperte enter pra continuar.");
-                scan.nextLine();
             default:
                 return true;
                 
         }
     }  
-
-    
 
 }

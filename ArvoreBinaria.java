@@ -10,7 +10,6 @@ import java.util.Comparator;
 public class ArvoreBinaria<T> {
     protected Node<T> raiz;
     protected Comparator<T> comparador;
-    //adicionar altura no nó
 
     public ArvoreBinaria(Comparator<T> comp){
         comparador = comp;
@@ -40,8 +39,8 @@ public class ArvoreBinaria<T> {
 
 
 // O valor do novo nó é recebido como parâmetro na função publica e usado para criação de um novo nó.
-// Se a ávore não possuir raiz ele é definido com raiz, se não, é chamado o método recursivo addNovoNO
-// enviando como parâmetro a raiz da árvore e o novo nó que se deseja inserir.
+
+// Se a ávore não possuir raiz ele é definido com raiz, se não, é chamado o método recursivo addNovoNO, enviando como parâmetro a raiz da árvore e o novo nó que se deseja inserir.
 
 
     protected Node<T> addNovoNo(Node<T> r, Node<T> novo){
@@ -68,14 +67,11 @@ public class ArvoreBinaria<T> {
     }
 
 // Usando o comparador que a árvore possui, o método percorre a árvore guiando o nó até o seu lugar.
-// O método compara o novo no com a raiz para decidir com qual filho será chamado o método novamente.
-// E assim recursivamente até que chegue a um nó que não possua o filho para chamar o método. Então,
-// o nó novo será definido como filho do ultimo nó pai visitado.
 
-
- 
+// O método compara o novo no com a raiz para decidir com qual filho será chamado o método novamente. E assim recursivamente até que chegue a um nó que não possua o filho para chamar o método. Então,o nó novo será definido como filho do ultimo nó pai visitado.
 
 // --------------------------------------------------
+
 /**
  * Retorna a Altura da Árvore
  * 
@@ -106,9 +102,9 @@ public class ArvoreBinaria<T> {
         }
     }
 
-//Aqui fazemos uma comparação entre dois nos e retornamos a maior altura entre eles + 1. 
+//O método determina a altura de uma árvore binária de busca, a partir dos nós das subárvores esquerda e direita. Se ambas as subárvores forem nulas, a altura é zero, caso contrário, a altura é determinada a partir da subárvore não nula com maior altura.
 
-
+// --------------------------------------------------
 
 //segundo método de calcular altura
 
@@ -123,9 +119,7 @@ public class ArvoreBinaria<T> {
     }
 
     
-
 // Se a raiz for null o método retorna 0, caso contrário o método recursivo calcAltura é chamado enviando a raiz como parâmetro.
-
 
     protected int calcAltura(Node<T> r){
 
@@ -153,10 +147,12 @@ public class ArvoreBinaria<T> {
 
 
     }
-// -------------------------------------------------------------------------
+// --------------------------------------------------
+
 /**
  * Retorna uma lista com os itens da árvore em ordem crescente
  */
+
     public ArrayList<T> caminhaEmOrdem(){
         ArrayList<T> lista = new ArrayList<T>();
         if(this.raiz!=null){
@@ -186,6 +182,7 @@ public class ArvoreBinaria<T> {
 
 
 //  O método recursivo verifica primeiro se o filho esquerdo é null, se não, ele chama a função caminhaEmOrdem enviando como parâmetro o filho esq como r e a lista.
+
 //  Quando o filho esq for null ou quando a condição finalizar, o valor de r é adicionado a lista. Após isso a mesma condição ocorre envolvendo o filho direito.
 
 
@@ -194,6 +191,7 @@ public class ArvoreBinaria<T> {
 /**
  * Retorna uma lista com os itens da árvore organizados por nível.
  */
+
 public ArrayList<T> caminhaEmNivel(){
     ArrayList<T> lista = new ArrayList<T>();
     ArrayList<Node<T>> fila = new ArrayList<Node<T>>();
@@ -204,7 +202,6 @@ public ArrayList<T> caminhaEmNivel(){
 
     return lista;
 }
-
 
 //Se a raiz for null o método retorna uma lista vazia, caso contrário a raiz é adicionada a fila e o método recursivo caminhaEmNivel é chamado enviando uma fila e uma lista como parâmetro.
 
@@ -227,12 +224,12 @@ private void caminhaEmNivel(ArrayList<Node<T>> fila, ArrayList<T> lista){
 }
 
 //É atribuido a variavel node r o nó da fila que está na posição 0, e colocado também o seu valor na lista.
-//Após isso, é verificado se o filho esq é null, se não, ele é add na fila, e o mesmo acontece para o filho direito.
-//Depois, como já foi analisado o primeiro nó da fila, ele é removido, e é chamado o método novamente com o próximo item da fila.
-//E assim continua recursivamente até que a fila esteja vazia.
+
+//Após isso, é verificado se o filho esq é null, se não, ele é add na fila, e o mesmo acontece para o filho direito. Depois, como já foi analisado o primeiro nó da fila, ele é removido, e é chamado o método novamente com o próximo item da fila. E assim continua recursivamente até que a fila esteja vazia.
 
 
-/// -----------------------------------------------------------------------------
+// --------------------------------------------------
+
 /**
  * Retorna a quantidade de elementos da árvore.
  */
@@ -252,12 +249,11 @@ private void caminhaEmNivel(ArrayList<Node<T>> fila, ArrayList<T> lista){
 
 
 //Se a raiz for null o método retorna 0, se não, a função é chamada recursivamente somando todos os valores retornados.
-//Sempre que um nó não for null ele chama a função recursivamente primeiro para seu filho esquerdo e depois para seu filho direito.
-//É parecido com o calculo da altura, porém não há comparação da quantidade de nós em cada lado.
 
-
+//Sempre que um nó não for null ele chama a função recursivamente primeiro para seu filho esquerdo e depois para seu filho direito. É parecido com o calculo da altura, porém não há comparação da quantidade de nós em cada lado.
 
 // --------------------------------------------------------
+
 /**
  * Remove nó de acordo com valor recebido como parâmetro.
  */
@@ -294,10 +290,11 @@ private void caminhaEmNivel(ArrayList<Node<T>> fila, ArrayList<T> lista){
 
 
 //O método faz, de maneira recursiva, uma busca pelo elemento do tipo T (genérico) e caso este elemento esteja na árvore então o remove. 
-//Caso o nó tenha filhos, o então é definido um nó substituto como o menor valor na subárvore à direita do nó a ser removido e o remove recursivamente, atribuindo seu valor ao nó original.
-//No final, a função retorna a raiz da árvore atualizada. 
 
-// -----------------------------------------------------------------------------------------------
+//Caso o nó tenha filhos, o então é definido um nó substituto como o menor valor na subárvore à direita do nó a ser removido e o remove recursivamente, atribuindo seu valor ao nó original. No final, a função retorna a raiz da árvore atualizada. 
+
+//--------------------------------------------------
+
 /**
  * Busca nó recebido como parâmetro e retorna a quantidade de nós percorridos até encontra-lo.
  */
@@ -328,11 +325,11 @@ private void caminhaEmNivel(ArrayList<Node<T>> fila, ArrayList<T> lista){
     }
 
     
-
 // O método realiza uma busca iterativa por um valor do tipo T (genérico). A função percorre a árvore comparando o valor com a raiz e os valores dos nós filhos se deslocando para a subárvore correta. 
+
 //Se o valor for encontrado, a função retorna o nó contendo o valor e exibe a quantidade de nós percorridos. Caso contrário, se a árvore estiver vazia ou o valor não estiver presente na árvore, a função retorna null. 
 
-// ----------------------------------------------------
+//----------------------------------------------------
 
 /**
  * Retorna menor valor da árvore.
@@ -362,6 +359,7 @@ private void caminhaEmNivel(ArrayList<Node<T>> fila, ArrayList<T> lista){
 /**
  * Retorna maior valor da árvore.
  */
+
     public T maxVal(){
         T max = null;
         if (this.raiz != null) {
@@ -383,31 +381,32 @@ private void caminhaEmNivel(ArrayList<Node<T>> fila, ArrayList<T> lista){
     }
 
 
-//Para encontrar o maior valor o método percorre a árvore até seu nó mais a direita
-//e para encontrar o menor a árvore é percorrida até seu nó mais a esquerda.
+//Para encontrar o maior valor o método percorre a árvore até seu nó mais a direita e para encontrar o menor a árvore é percorrida até seu nó mais a esquerda.
 
-public void printIndented(Node<T> node, String indent, boolean last) {
-    if(raiz != null){
-        System.out.print(indent);
-        if (last) {
-            System.out.print("└─");
-            indent += "  ";
-        } else {
-            System.out.print("├─");
-            indent += "│ ";
-        }
-        System.out.println(node.getValor());
+    public void printIndented(Node<T> node, String indent, boolean last) {
+        if(raiz != null){
+            System.out.print(indent);
+            if (last) {
+                System.out.print("└─");
+                indent += "  ";
+            } else {
+                System.out.print("├─");
+                indent += "│ ";
+            }
+            System.out.println(node.getValor());
 
-        if (node.getFilho_dir() != null) {
-            printIndented(node.getFilho_dir(), indent, node.getFilho_esq() == null);
-        }
+            if (node.getFilho_dir() != null) {
+                printIndented(node.getFilho_dir(), indent, node.getFilho_esq() == null);
+            }
 
-        if (node.getFilho_esq() != null) {
-            printIndented(node.getFilho_esq(), indent, true);
+            if (node.getFilho_esq() != null) {
+                printIndented(node.getFilho_esq(), indent, true);
+            }
+        }else{
+            System.out.println("Árvore está vazia!");
         }
-    }else{
-        System.out.println("Árvore está vazia!");
     }
-     }
+
+//Printa na tela a árvore binária completa 
 
 } // fecha classe
