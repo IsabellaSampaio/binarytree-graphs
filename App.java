@@ -1,3 +1,4 @@
+
 import java.util.Scanner;
 import java.io.IOException;
 
@@ -6,8 +7,8 @@ import java.io.IOException;
  */
 
 public class App {
-    
-    public static void main(String[] args) throws InterruptedException, IOException{
+
+    public static void main(String[] args) throws InterruptedException, IOException {
 
         Scanner scan = new Scanner(System.in);
         int opcao = 0;
@@ -15,11 +16,11 @@ public class App {
         Menu menu = new Menu(scan, opcao);
         menu.lerArq();
 
-        while(opcao != 5){
+        while (opcao != 5) {
             menu.menu();
             opcao = menu.lerOpcaoMenu();
-            menu.escolheMenu(opcao);       
-        }     
+            menu.escolheMenu(opcao);
+        }
 
     }
 
