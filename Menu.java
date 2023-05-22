@@ -14,18 +14,15 @@ import java.io.FileWriter;
 
 public class Menu {
     private Scanner scan;
-    private ArvoreBinaria<Aluno> arvMat;
-    private ArvoreAVL<Aluno> arvMatAVL;
-    private ArvoreAVL<Aluno> arvNomeAVL;
-    private ArvoreBinaria<Aluno> arvNome;
+    private Grafo<Cidade> grafo;
+
 
     public Menu(Scanner scan, int opcao) {
         this.scan = scan;
-        // Criação das árvores passando como parâmetro o comparador respectivos.
-        arvNome = new ArvoreBinaria<Aluno>(new ComparadorPorNome());
-        arvMat = new ArvoreBinaria<Aluno>(new ComparadorPorMatricula());
-        arvMatAVL = new ArvoreAVL<Aluno>(new ComparadorPorMatricula());
-        arvNomeAVL = new ArvoreAVL<Aluno>(new ComparadorPorNome());
+        grafo = new Grafo<Cidade>();
+        // Criação dos grafos.
+
+
     }
 
     /**
@@ -33,10 +30,6 @@ public class Menu {
      * NIVEL ou ORDEM de matricula, ou nome, dependendo da função chamada dentro
      * dela).
      */
-
-    public ArrayList<Aluno> getAlunos() {
-        return arvMat.caminhaEmOrdem(); // Função que devolve uma lista com alunos em Ordem Crescente de matricula
-    }
 
     public static void limpaTela() {
         try {
@@ -73,6 +66,7 @@ public class Menu {
     public void lerArq() {
         String arq = "";
         File arquivo = new File(arq);
+        Matriz matriz = new Matriz();
 
         do {
             limpaTela();
@@ -84,18 +78,25 @@ public class Menu {
         System.out.println("Lendo arquivo...");
         try {
             Scanner scanner = new Scanner(arquivo);
-            while (scanner.hasNextLine()) {
+            int quant =  Integer.parseInt(scanner.nextLine());
+            
+            for(int j=0; j<quant; j++) {
                 String linha = scanner.nextLine();
-                String[] aluno = linha.split(";");
-                int tam = aluno.length;
-                if (tam > 1) {
-                    Aluno nodeAluno = new Aluno(aluno[1], Integer.parseInt(aluno[0]), Integer.parseInt(aluno[2]));
-                    arvNome.addNovoNo(nodeAluno);
-                    arvMat.addNovoNo(nodeAluno);
-                    arvMatAVL.addNovoNo(nodeAluno);
-                    arvNomeAVL.addNovoNo(nodeAluno);
+                String[] str = linha.split(",");
+                ArrayList<Float> linhaPesos = new ArrayList<Float>();
+                for(int c=0; c<str.length; c++){
+                    linhaPesos.add(Float.parseFloat(str[c]));
                 }
+                matriz.setNovaLinha(linhaPesos);
             }
+
+            for(int i=0; i<quant; i++) {
+                String linha = scanner.nextLine();
+                String[] l = linha.split(",");
+                Cidade c = new Cidade( Integer.parseInt(l[0]), l[1]);
+                grafo.adicionarVertice(c);
+            }
+
             scanner.close();
         } catch (FileNotFoundException e) {
             System.out.println("O arquivo não foi encontrado.");
@@ -110,7 +111,6 @@ public class Menu {
      */
 
     public void criaArq() {
-        System.out.println(arvMat.quantElem());
         try {
             File arquivo = new File("saida123.txt");
             if (!arquivo.exists()) {
@@ -118,13 +118,6 @@ public class Menu {
             }
             FileWriter escreveArq = new FileWriter("saida123.txt", false);
             BufferedWriter bufferWritter = new BufferedWriter(escreveArq);
-            ArrayList<Aluno> alunos = getAlunos();
-            for (Aluno aluno : alunos) {
-                bufferWritter.write(aluno.getMatricula() + ";");
-                bufferWritter.write(aluno.getNome() + ";");
-                bufferWritter.write(aluno.getNota() + "");
-                bufferWritter.newLine();
-            }
 
             bufferWritter.close();
         } catch (IOException e) {
@@ -153,16 +146,6 @@ public class Menu {
                 criaArq();
                 return true;
             case 6:
-                System.out.println("*Arvore AVL*");
-                System.out.println("Altura da árvore: " + arvMatAVL.getRaiz().getAltura());
-                arvMatAVL.printIndented(arvMatAVL.getRaiz(), "", true);
-                System.out.println();
-                System.out.println("*Arvore Binaria*");
-                System.out.println("Altura da árvore: " + arvMat.getRaiz().getAltura());
-                arvMat.printIndented(arvMat.getRaiz(), "", true);
-                System.out.println();
-                System.out.println("Aperte enter pra continuar.");
-                scan.nextLine();
                 return true;
             default:
                 return true;
