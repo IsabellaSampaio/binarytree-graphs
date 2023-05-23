@@ -3,12 +3,13 @@ import java.util.ArrayList;
 public class Grafo<T> {
     ArrayList<Aresta> arestas;
     ArrayList<Vertice<T>> vertices;
-    Matriz pesos;
 
-    public Grafo(){}
+    public Grafo(){
+        arestas = new ArrayList<Aresta>();
+        vertices = new ArrayList<Vertice<T>>();
+    }
 
     public Vertice<T> adicionarVertice(T valor){
-        pesos = new Matriz();
         Vertice<T> novo = new Vertice<T>(valor);
         vertices.add(novo);
         return novo;
@@ -22,6 +23,10 @@ public class Grafo<T> {
             return v;
         }
         return null;
+    }
+
+    public T verticePorIndex(int index){
+        return (vertices.get(index)).getValor();
     }
 
 
@@ -38,10 +43,6 @@ public class Grafo<T> {
         }
         novaAresta=new Aresta(verticeOrigem, verticeDestino, peso);
         arestas.add(novaAresta);
-    }
-
-    public void setPesos(Matriz pesos) {
-        this.pesos = pesos;
     }
 
 }

@@ -62,11 +62,18 @@ public class Menu {
 
     }
 
+    public int lerOpcaoMenu() throws InterruptedException, IOException {
+        System.out.println("-> ESCOLHA UMA OPÇÃO: ");
+        int opcao = scan.nextInt();
+        scan.nextLine();
+        return opcao;
+    }
 
+    
     public void lerArq() {
         String arq = "";
         File arquivo = new File(arq);
-        Matriz matriz = new Matriz();
+
 
         do {
             limpaTela();
@@ -80,16 +87,6 @@ public class Menu {
             Scanner scanner = new Scanner(arquivo);
             int quant =  Integer.parseInt(scanner.nextLine());
             
-            for(int j=0; j<quant; j++) {
-                String linha = scanner.nextLine();
-                String[] str = linha.split(",");
-                ArrayList<Float> linhaPesos = new ArrayList<Float>();
-                for(int c=0; c<str.length; c++){
-                    linhaPesos.add(Float.parseFloat(str[c]));
-                }
-                matriz.setNovaLinha(linhaPesos);
-            }
-
             for(int i=0; i<quant; i++) {
                 String linha = scanner.nextLine();
                 String[] l = linha.split(",");
@@ -97,6 +94,15 @@ public class Menu {
                 grafo.adicionarVertice(c);
             }
 
+            for(int j=0; j<quant; j++) {
+                String linha = scanner.nextLine();
+                String[] str = linha.split(",");
+                for(int c=0; c<str.length; c++){
+                    grafo.adicionarAresta(grafo.verticePorIndex(j), grafo.verticePorIndex(c), Float.parseFloat(str[c]));
+                    System.out.println("Aresta adicionada com sucesso");
+                    System.out.println(grafo.verticePorIndex(j).getNome()+ " -------> " + grafo.verticePorIndex(c).getNome() + " = "+ Float.parseFloat(str[c]));
+                }
+            }
             scanner.close();
         } catch (FileNotFoundException e) {
             System.out.println("O arquivo não foi encontrado.");
