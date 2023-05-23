@@ -1,11 +1,14 @@
 import java.util.ArrayList;
+import java.util.Comparator;
 
 public class Grafo<T> {
-    ArrayList<Aresta> arestas;
-    ArrayList<Vertice<T>> vertices;
+    private ArrayList<Aresta<T>> arestas;
+    private ArrayList<Vertice<T>> vertices;
+    protected Comparator<T> comparador;
 
-    public Grafo(){
-        arestas = new ArrayList<Aresta>();
+    public Grafo(Comparator<T> comp) {
+        comparador = comp;
+        arestas = new ArrayList<Aresta<T>>();
         vertices = new ArrayList<Vertice<T>>();
     }
 
@@ -25,6 +28,8 @@ public class Grafo<T> {
         return null;
     }
 
+    
+
     public T verticePorIndex(int index){
         return (vertices.get(index)).getValor();
     }
@@ -32,7 +37,7 @@ public class Grafo<T> {
 
     public void adicionarAresta(T origem, T destino, float peso){
         Vertice<T> verticeOrigem, verticeDestino;
-        Aresta novaAresta;
+        Aresta<T> novaAresta;
         verticeOrigem = obterVertice(origem);
         if(verticeOrigem == null){
             verticeOrigem=adicionarVertice(origem);
@@ -41,8 +46,18 @@ public class Grafo<T> {
         if(verticeDestino==null){
             verticeDestino=adicionarVertice(destino);
         }
-        novaAresta=new Aresta(verticeOrigem, verticeDestino, peso);
+        novaAresta=new Aresta<T>(verticeOrigem, verticeDestino, peso);
         arestas.add(novaAresta);
+    }
+
+    public void obterVerVizinhos(T valor){
+        for(Aresta<T> aresta:arestas){
+            T vo = aresta.getOrigem().getValor();
+            T vd = aresta.getOrigem().getValor();
+            if(comparador.compare(vo, valor)!=0 && comparador.compare(vd, valor)==0){
+                System.out.println(vo.toString());
+            }
+        }
     }
 
 }

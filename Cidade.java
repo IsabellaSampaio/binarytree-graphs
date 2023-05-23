@@ -9,4 +9,13 @@ public class Cidade {
     public String getNome(){
         return nome;
     }
+
+    public int getId() {
+        return id;
+    }
+
+    @Override
+    public String toString() {
+        return "----------------------------\nCidade: " + nome + "\nId: " + id;
+    }
 }

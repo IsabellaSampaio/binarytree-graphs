@@ -2,6 +2,7 @@
 import java.util.Scanner;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -19,7 +20,7 @@ public class Menu {
 
     public Menu(Scanner scan, int opcao) {
         this.scan = scan;
-        grafo = new Grafo<Cidade>();
+        grafo = new Grafo<Cidade>(new Comparador());
         // Criação dos grafos.
 
 
@@ -52,12 +53,9 @@ public class Menu {
 
         System.out.println("BEM-VINDO(A)\n");
         System.out.println("_________________________________________\n");
-        System.out.println("[1] Adicionar aluno");
-        System.out.println("[2] Buscar aluno");
-        System.out.println("[3] Excluir aluno");
-        System.out.println("[4] Exibir estatísticas dos alunos");
-        System.out.println("[5] Sair");
-        System.out.println("[6] Imprimir árvores");
+        System.out.println("[1] Obter Cidades Vizinhas");
+        System.out.println("[2] Obter todos os caminhos de uma cidade à outra");
+        System.out.println("[3] Sair");
         System.out.println("_________________________________________\n");
 
     }
@@ -67,6 +65,14 @@ public class Menu {
         int opcao = scan.nextInt();
         scan.nextLine();
         return opcao;
+    }
+
+    public void exibirCidadesVizinhas(){
+        System.out.println("Insira o Id da cidade que deseja verificar os vizinhos: ");
+        int opcao = scan.nextInt();
+        scan.nextLine();
+        System.out.print("Cidades vizinhas a " );
+        grafo.obterVerVizinhos(new Cidade(opcao, null));
     }
 
     
@@ -112,27 +118,6 @@ public class Menu {
     }
 
     /**
-     * Cria um arquivo com os nomes dos alunos organizados em ordem crescente de
-     * matricula.
-     */
-
-    public void criaArq() {
-        try {
-            File arquivo = new File("saida123.txt");
-            if (!arquivo.exists()) {
-                arquivo.createNewFile();
-            }
-            FileWriter escreveArq = new FileWriter("saida123.txt", false);
-            BufferedWriter bufferWritter = new BufferedWriter(escreveArq);
-
-            bufferWritter.close();
-        } catch (IOException e) {
-            System.out.println("Não foi possível adicionar os itens no arquivo.");
-            e.printStackTrace();
-        }
-    }
-
-    /**
      * Chama o método respectivo a opção recebida como parâmetro.
      */
 
@@ -143,19 +128,10 @@ public class Menu {
             case 2:
                 return true;
             case 3:
-                return true;
-            case 4:
-                return true;
-            case 5:
                 System.out.println("Saindo do programa e salvando arquivo...");
-                Thread.sleep(2000);
-                criaArq();
-                return true;
-            case 6:
                 return true;
             default:
                 return true;
-
         }
     }
 
