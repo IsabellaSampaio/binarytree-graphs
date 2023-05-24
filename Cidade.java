@@ -16,6 +16,6 @@ public class Cidade {
 
     @Override
     public String toString() {
-        return "----------------------------\nCidade: " + nome + "\nId: " + id;
+        return "\nCidade: " + nome + "\nId: " + id;
     }
 }

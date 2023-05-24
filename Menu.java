@@ -20,7 +20,7 @@ public class Menu {
 
     public Menu(Scanner scan, int opcao) {
         this.scan = scan;
-        grafo = new Grafo<Cidade>(new Comparador());
+        
         // Criação dos grafos.
 
 
@@ -50,6 +50,7 @@ public class Menu {
      */
 
     public void menu() throws InterruptedException, IOException {
+        limpaTela();
 
         System.out.println("BEM-VINDO(A)\n");
         System.out.println("_________________________________________\n");
@@ -68,11 +69,12 @@ public class Menu {
     }
 
     public void exibirCidadesVizinhas(){
+        limpaTela();
         System.out.println("Insira o Id da cidade que deseja verificar os vizinhos: ");
         int opcao = scan.nextInt();
         scan.nextLine();
-        System.out.print("Cidades vizinhas a " );
-        grafo.obterVerVizinhos(new Cidade(opcao, null));
+        System.out.print("Essas são as Cidades vizinhas a " + grafo.obterVerVizinhos(new Cidade(opcao, null)).getValor().getNome()+ "\n\nAperte enter pra voltar pro menu.");
+        scan.nextLine();
     }
 
     
@@ -92,6 +94,7 @@ public class Menu {
         try {
             Scanner scanner = new Scanner(arquivo);
             int quant =  Integer.parseInt(scanner.nextLine());
+            grafo = new Grafo<Cidade>(new Comparador(), quant);
             
             for(int i=0; i<quant; i++) {
                 String linha = scanner.nextLine();
@@ -105,11 +108,11 @@ public class Menu {
                 String[] str = linha.split(",");
                 for(int c=0; c<str.length; c++){
                     grafo.adicionarAresta(grafo.verticePorIndex(j), grafo.verticePorIndex(c), Float.parseFloat(str[c]));
-                    System.out.println("Aresta adicionada com sucesso");
-                    System.out.println(grafo.verticePorIndex(j).getNome()+ " -------> " + grafo.verticePorIndex(c).getNome() + " = "+ Float.parseFloat(str[c]));
+                    
                 }
             }
             scanner.close();
+            System.out.println("Grafo criado com sucesso!");
         } catch (FileNotFoundException e) {
             System.out.println("O arquivo não foi encontrado.");
             e.printStackTrace();
@@ -124,6 +127,7 @@ public class Menu {
     public boolean escolheMenu(int opcao) throws InterruptedException, IOException {
         switch (opcao) {
             case 1:
+                exibirCidadesVizinhas();
                 return true;
             case 2:
                 return true;
