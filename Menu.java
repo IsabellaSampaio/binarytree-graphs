@@ -132,7 +132,7 @@ public class Menu {
             case 2:
                 return true;
             case 3:
-                System.out.println("Saindo do programa e salvando arquivo...");
+                System.out.println("Saindo do programa.");
                 return true;
             default:
                 return true;
