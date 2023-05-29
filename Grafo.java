@@ -79,10 +79,10 @@ public class Grafo<T> {
         if(v!=null){
             for(int i=0; i<vertices.size(); i++){
                 Vertice<T> vAux = vertices.get(i);
-                if(pesos[v.getIndex()][i]>0){
+                if(pesos[v.getIndex()][i]>0 && i!=v.getIndex()){
                     System.out.println("-------------------------\n Ponto destino da aresta: " + vAux.getValor().toString()+"\nPeso:" + pesos[v.getIndex()][i]);
                 }
-                if(pesos[i][v.getIndex()]>0){
+                if(pesos[i][v.getIndex()]>0 && i!=v.getIndex()){
                     System.out.println("--------------------------\nPonto origem da aresta: " + vAux.getValor().toString()+"\nPeso:" + pesos[i][v.getIndex()]);
                 }
             }
