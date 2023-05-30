@@ -126,11 +126,11 @@ public class Grafo<T> {
         if (v != null) {
             for (int i = 0; i < vertices.size(); i++) {
                 Vertice<T> vAux = vertices.get(i);
-                if (pesos[v.getIndex()][i] > 0) {
-                    System.out.println("-------------------------\nPonto destino da aresta: \n" + vAux.getValor().toString() + "Peso: " + pesos[v.getIndex()][i] + "\n");
+                if(pesos[v.getIndex()][i]>0 && i!=v.getIndex()){
+                    System.out.println("-------------------------\nPonto destino da aresta: \n" + vAux.getValor().toString()+"\nPeso:" + pesos[v.getIndex()][i] + "\n");
                 }
-                if (pesos[i][v.getIndex()] > 0) {
-                    System.out.println("--------------------------\nPonto origem da aresta: \n" + vAux.getValor().toString() + "Peso: " + pesos[i][v.getIndex()] + "\n");
+                if(pesos[i][v.getIndex()]>0 && i!=v.getIndex()){
+                    System.out.println("--------------------------\nPonto origem da aresta: \n" + vAux.getValor().toString()+"\nPeso:" + pesos[i][v.getIndex()] + "\n");
                 }
             }
             return v;
