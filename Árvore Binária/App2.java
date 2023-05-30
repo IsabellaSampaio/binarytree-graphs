@@ -6,14 +6,14 @@ import java.io.IOException;
  * Programa principal
  */
 
-public class App {
+public class App2 {
 
     public static void main(String[] args) throws InterruptedException, IOException {
 
         Scanner scan = new Scanner(System.in);
         int opcao = 0;
 
-        Menu menu = new Menu(scan, opcao);
+        Menu2 menu = new Menu2(scan, opcao);
         menu.lerArq();
 
         while (opcao != 5) {

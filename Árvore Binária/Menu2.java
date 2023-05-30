@@ -12,14 +12,14 @@ import java.io.FileWriter;
  * processo.
  */
 
-public class Menu {
-    private Scanner scan;
-    private ArvoreBinaria<Aluno> arvMat;
-    private ArvoreAVL<Aluno> arvMatAVL;
-    private ArvoreAVL<Aluno> arvNomeAVL;
-    private ArvoreBinaria<Aluno> arvNome;
+public class Menu2 {
+    private final Scanner scan;
+    private final ArvoreBinaria<Aluno> arvMat;
+    private final ArvoreAVL<Aluno> arvMatAVL;
+    private final ArvoreAVL<Aluno> arvNomeAVL;
+    private final ArvoreBinaria<Aluno> arvNome;
 
-    public Menu(Scanner scan, int opcao) {
+    public Menu2(Scanner scan, int opcao) {
         this.scan = scan;
         // Criação das árvores passando como parâmetro o comparador respectivos.
         arvNome = new ArvoreBinaria<Aluno>(new ComparadorPorNome());
@@ -375,7 +375,7 @@ public class Menu {
             for (Aluno aluno : alunos) {
                 bufferWritter.write(aluno.getMatricula() + ";");
                 bufferWritter.write(aluno.getNome() + ";");
-                bufferWritter.write(aluno.getNota() + "");
+                bufferWritter.write(String.valueOf(aluno.getNota()));
                 bufferWritter.newLine();
             }
 

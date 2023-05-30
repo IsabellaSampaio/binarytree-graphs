@@ -39,7 +39,7 @@ public class Aluno {
 
     @Override
     public String toString() {
-        return "Nome - " + this.nome + " | Matricula - " + Integer.toString(this.matricula) + " | Nota - " + this.nota;
+        return "Nome - " + this.nome + " | Matricula - " + this.matricula + " | Nota - " + this.nota;
     }
 
 }

@@ -17,13 +17,13 @@ import java.util.logging.Logger;
  */
 public class GeradorArquivos {
 
-    final char vogais[] = { 'a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U' };
+    final char[] vogais = { 'a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U' };
     final Random rand = new Random();
     final int matriculaBase = 2000000000;
 
     private enum TipoArquivo {
-        ORDENADO, BALANCEADO;
-    };
+        ORDENADO, BALANCEADO
+    }
 
     private boolean ehVogal(char c) {
         for (char l : vogais) {

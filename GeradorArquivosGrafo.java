@@ -18,7 +18,7 @@ import java.util.logging.Logger;
  */
 public class GeradorArquivosGrafo {
     
-    final char vogais[] = {'a', 'e', 'i', 'o','u','A','E','I','O','U'};
+    final char[] vogais = {'a', 'e', 'i', 'o','u','A','E','I','O','U'};
     final Random rand = new Random();
     
     private boolean ehVogal (char c){
@@ -79,7 +79,7 @@ public class GeradorArquivosGrafo {
             //Esse vetor terá seu tamanho dados por (qtd*qtd-qtd)/2 (resultado de uma somatoria onde a primeira lina tem qtd-1 elementos
             //e vai diminuindo de um em um até que a última tem zero.
             int tamVetDist = (n*n-n)/2;
-            double distancias[] = new double[tamVetDist];
+            double[] distancias = new double[tamVetDist];
             int l,c;
             i=0;
             for(l=0;l<n;l++){
