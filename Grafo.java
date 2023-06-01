@@ -162,28 +162,54 @@ public class Grafo<T> {
     public Grafo<T> gerarArvoreGM(){
         Grafo<T> arvoreGM = new Grafo<>(comparador, quantVertices);
         ArrayList<float[]> fila = new ArrayList<>();
-        float aresta[] = new float[3]; //[peso, vertice 1, vertice 2]
+        float aresta[]; //[peso, vertice 1, vertice 2]
         int cont = 0; // quantidade de arestas inseridas
         Vertice<T> v;
 
         for(int i=0; cont<(quantVertices-1); i++){
             v =vertices.get(i);
             arvoreGM.adicionarVertice(v.getValor());
-            for(int j=0; cont<(quantVertices-1); j++){
-                if(pesos[i][j]>0){
-                    aresta[0] = pesos[i][j];
-                    aresta[1] =  i;
-                    aresta[2] = j;
-                    fila.add(aresta);
+            for(int j=0; j<quantVertices; j++){
+                if(pesos[i][j]>0 && j!=i){
+                    if((pesos[i][j]==pesos[j][i] && i<j) || pesos[i][j]>pesos[j][i]){
+                        aresta = new float[3];
+                        aresta[0] = pesos[i][j];
+                        aresta[1] =  i;
+                        aresta[2] = j;
+                        fila.add(aresta);
+                    }
+                    else if(pesos[i][j]<pesos[j][i]){
+                        aresta = new float[3];
+                        aresta[0] = pesos[j][i];
+                        aresta[1] =  j;
+                        aresta[2] = i;
+                        fila.add(aresta);
+                    }
                 }
             }
-
+            aresta = menorAresta(fila);
+            arvoreGM.adicionarAresta(verticePorIndex(Math.round(aresta[1])),verticePorIndex(Math.round(aresta[2])), aresta[0]);
+            System.out.println("--------------------------" + verticePorIndex(Math.round(aresta[1])).toString() + verticePorIndex(Math.round(aresta[2])).toString() + "\n Peso: " + aresta[0] );
+            fila.remove(aresta);
+            cont+=1;
         }
 
         return arvoreGM;
     }
+
+    private float[] menorAresta(ArrayList<float[]> fila){
+        float menorPeso[] = fila.get(0);
+        for(float[] aresta : fila){
+            System.out.println(aresta[0]);
+            if(aresta[0]<menorPeso[0]){
+                menorPeso= aresta;
+            }
+        }
+        
+        return menorPeso;
+    }
+
+
 }
 
-private float[] menorAresta(ArrayList aresta){
 
-}

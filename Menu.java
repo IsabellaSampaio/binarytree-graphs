@@ -13,6 +13,7 @@ import java.io.FileWriter;
 public class Menu {
     private final Scanner scan;
     private Grafo<Cidade> grafo;
+    private Grafo<Cidade> arvoreGM;
 
     public Menu(Scanner scan, int opcao) {
         this.scan = scan;
@@ -86,6 +87,13 @@ public class Menu {
         scan.nextLine();
     }
 
+    public void gerarArvoreGM(){
+        limpaTela();
+        arvoreGM = grafo.gerarArvoreGM();
+        System.out.println("Aperte enter para voltar ao menu.");
+        scan.nextLine();
+    }
+
     /**
      * Lê um arquivo contendo informações sobre as cidades e cria o grafo correspondente.
      */
@@ -140,6 +148,7 @@ public class Menu {
                 exibirCaminhosPossiveis();
                 return true;
             case 3:
+                gerarArvoreGM();
                 return true;
             case 4:
                 System.out.println("Saindo do programa.");
