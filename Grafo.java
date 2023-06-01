@@ -1,11 +1,11 @@
+// LUDMILA DIAS E ISABELLA SAMPAIO
+
 import java.util.ArrayList;
 import java.util.Comparator;
 
 public class Grafo<T> {
-    private final ArrayList<Aresta<T>> arestas;  // Lista de arestas do grafo
     private final ArrayList<Vertice<T>> vertices;  // Lista de vértices do grafo
     private final float[][] pesos;  // Matriz de pesos das arestas do grafo
-
     int quantVertices;  // Quantidade de vértices do grafo
     protected Comparator<T> comparador;  // Comparador utilizado para comparar valores dos vértices
 
@@ -17,7 +17,6 @@ public class Grafo<T> {
      */
     public Grafo(Comparator<T> comp, int quantVertices) {
         comparador = comp;
-        arestas = new ArrayList<Aresta<T>>();
         vertices = new ArrayList<Vertice<T>>();
         pesos = new float[quantVertices][quantVertices];
         this.quantVertices = quantVertices;
@@ -96,9 +95,9 @@ public class Grafo<T> {
      * @param destino O valor do vértice de destino da aresta.
      * @param peso    O peso da aresta.
      */
+
     public void adicionarAresta(T origem, T destino, float peso) {
         Vertice<T> v_origem, v_destino;
-        Aresta<T> novaAresta;
         v_origem = obterVertice(origem);
         if (v_origem == null) {
             v_origem = adicionarVertice(origem);
@@ -106,10 +105,6 @@ public class Grafo<T> {
         v_destino = obterVertice(destino);
         if (v_destino == null) {
             v_destino = adicionarVertice(destino);
-        }
-        if (peso != 0) {
-            novaAresta = new Aresta<T>(v_origem, v_destino, peso);
-            arestas.add(novaAresta);
         }
 
         pesos[v_origem.getIndex()][v_destino.getIndex()] = peso;
@@ -163,4 +158,32 @@ public class Grafo<T> {
             }
         }
     }
+
+    public Grafo<T> gerarArvoreGM(){
+        Grafo<T> arvoreGM = new Grafo<>(comparador, quantVertices);
+        ArrayList<float[]> fila = new ArrayList<>();
+        float aresta[] = new float[3]; //[peso, vertice 1, vertice 2]
+        int cont = 0; // quantidade de arestas inseridas
+        Vertice<T> v;
+
+        for(int i=0; cont<(quantVertices-1); i++){
+            v =vertices.get(i);
+            arvoreGM.adicionarVertice(v.getValor());
+            for(int j=0; cont<(quantVertices-1); j++){
+                if(pesos[i][j]>0){
+                    aresta[0] = pesos[i][j];
+                    aresta[1] =  i;
+                    aresta[2] = j;
+                    fila.add(aresta);
+                }
+            }
+
+        }
+
+        return arvoreGM;
+    }
+}
+
+private float[] menorAresta(ArrayList aresta){
+
 }

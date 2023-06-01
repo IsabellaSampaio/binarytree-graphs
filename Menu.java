@@ -45,7 +45,8 @@ public class Menu {
         System.out.println("_________________________________________\n");
         System.out.println("[1] Obter Cidades Vizinhas");
         System.out.println("[2] Obter todos os caminhos de uma cidade à outra");
-        System.out.println("[3] Sair");
+        System.out.println("[3] Calcular Árvore geradora mínima");
+        System.out.println("[4] Sair");
         System.out.println("_________________________________________\n");
     }
 
@@ -139,6 +140,8 @@ public class Menu {
                 exibirCaminhosPossiveis();
                 return true;
             case 3:
+                return true;
+            case 4:
                 System.out.println("Saindo do programa.");
                 return true;
             default:
