@@ -161,39 +161,58 @@ public class Grafo<T> {
 
     public Grafo<T> gerarArvoreGM(){
         Grafo<T> arvoreGM = new Grafo<>(comparador, quantVertices);
-        ArrayList<float[]> fila = new ArrayList<>();
+        ArrayList<float[]> filaArestas = new ArrayList<>();
         float aresta[]; //[peso, vertice 1, vertice 2]
         int cont = 0; // quantidade de arestas inseridas
+        ArrayList<Vertice<T>> filaVertices = new ArrayList<>();
+        ArrayList<Vertice<T>> verticesVisitados = new ArrayList<>();
         Vertice<T> v;
+        int i = 0;
+        int j = 0;
+        int d, o = 0;
 
-        for(int i=0; cont<(quantVertices-1); i++){
-            v =vertices.get(i);
-            arvoreGM.adicionarVertice(v.getValor());
-            for(int j=0; j<quantVertices; j++){
-                if(pesos[i][j]>0 && j!=i){
-                    if((pesos[i][j]==pesos[j][i] && i<j) || pesos[i][j]>pesos[j][i]){
-                        aresta = new float[3];
-                        aresta[0] = pesos[i][j];
-                        aresta[1] =  i;
-                        aresta[2] = j;
-                        fila.add(aresta);
-                    }
-                    else if(pesos[i][j]<pesos[j][i]){
-                        aresta = new float[3];
-                        aresta[0] = pesos[j][i];
-                        aresta[1] =  j;
-                        aresta[2] = i;
-                        fila.add(aresta);
-                    }
+        for(Vertice<T> vert: vertices){
+            filaVertices.add(vert);
+        }
+        
+        v = filaVertices.get(0);
+
+        do{
+            verticesVisitados.add(v);
+            filaVertices.remove(v); 
+            v = verticesVisitados.get(verticesVisitados.size()-1);
+            i = v.getIndex();
+            for(Vertice<T> adj:filaVertices){
+                j = adj.getIndex();
+                if(pesos[i][j]>0 && ((pesos[i][j]==pesos[j][i] && i<j) || pesos[i][j]<pesos[j][i])){
+                    aresta = new float[3];
+                    aresta[0] = pesos[i][j];
+                    aresta[1] =  i;
+                    aresta[2] = j;
+                    filaArestas.add(aresta);
+                } else if(pesos[j][i]>0 && pesos[j][i]<pesos[i][j]){
+                    aresta = new float[3];
+                    aresta[0] = pesos[j][i];
+                    aresta[1] =  j;
+                    aresta[2] = i;
                 }
             }
-            aresta = menorAresta(fila);
-            arvoreGM.adicionarAresta(verticePorIndex(Math.round(aresta[1])),verticePorIndex(Math.round(aresta[2])), aresta[0]);
-            System.out.println("--------------------------" + verticePorIndex(Math.round(aresta[1])).toString() + verticePorIndex(Math.round(aresta[2])).toString() + "\n Peso: " + aresta[0] );
-            fila.remove(aresta);
-            cont+=1;
-        }
+            aresta = menorAresta(filaArestas);
+            o = Math.round(aresta[1]);
+            d = Math.round(aresta[2]);
+            arvoreGM.adicionarAresta(verticePorIndex(o),verticePorIndex(d), aresta[0]);
+            System.out.println("--------------------------\n" + verticePorIndex(Math.round(aresta[1])).toString() + verticePorIndex(Math.round(aresta[2])).toString() + "\n Peso: " + aresta[0] );
+            filaArestas.remove(aresta);
+            if(o!= i){
+                System.out.println(o+" e diferente de " + i);
+                v = vertices.get(o);
+            } else if(d!=i){
+                System.out.println(d+" e diferente de " + i);
+                v = vertices.get(d);
+            }
 
+
+        }while(filaVertices.size()>0);
         return arvoreGM;
     }
 
