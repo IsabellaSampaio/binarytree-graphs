@@ -159,33 +159,44 @@ public class Grafo<T> {
         }
     }
 
+    /**
+     * Gera uma árvore geradora minima do grafo.
+     */
     public Grafo<T> gerarArvoreGM(){
-        Grafo<T> arvoreGM = new Grafo<>(comparador, quantVertices);
-        ArrayList<float[]> filaArestas = new ArrayList<>();
-        float aresta[]; //[peso, vertice 1, vertice 2]
+        Grafo<T> arvoreGM = new Grafo<>(comparador, quantVertices); // Árvore geradora minima
+        ArrayList<float[]> filaArestas = new ArrayList<>();// Fila de arestas
+        float aresta[]; // [peso, vertice origem, vertice destino]
         int cont = 0; // quantidade de arestas inseridas
-        ArrayList<Vertice<T>> filaVertices = new ArrayList<>();
-        ArrayList<Vertice<T>> verticesVisitados = new ArrayList<>();
+        ArrayList<Vertice<T>> filaVertices = new ArrayList<>();// fila de vértices ainda não visitados
+        ArrayList<Vertice<T>> verticesVisitados = new ArrayList<>();// Lista de vertices visitados
         Vertice<T> v;
-        int i = 0;
-        int j = 0;
+        int i, j = 0;
         int d, o = 0;
-
+        
+        // Adiciona os vertices do grafo na fila de vertices e na árvore.
         for(Vertice<T> vert: vertices){
             filaVertices.add(vert);
             arvoreGM.adicionarVertice(vert.getValor());
         }
         
+        // Adiciona o vertice da posição 0 na lista de visitados, e inicia o loop visitante esse vértice e suas arestas.
         v = filaVertices.get(0);
         verticesVisitados.add(v);
         filaVertices.remove(v); 
 
+        /*
+         Esse loop pega o ultimo valor adicionado na lista de vertices visitados e adiciona as suas arestas ligadas aos vertices ainda não acessados
+         na lista de arestas.Logo após chama o método menorAresta() que retorna a aresta de menor peso, analisando também os vértices da aresta para que não
+         seja retornado uma aresta que liga a um vertice que já foi visitado, gerando um ciclo.
+         Como estamos utilizando matriz de adjacências o acesso é feito através dos indices, e é comparado o peso das arestas nos dois sentidos para caso ocorra de
+         ter arestas com mesmos vertices - destino e origem - mas valores diferentes.
+        */
         do{
             v = verticesVisitados.get(verticesVisitados.size()-1);
             i = v.getIndex();
             for(Vertice<T> adj:filaVertices){
                 j = adj.getIndex();
-                if(pesos[i][j]>0 && ((pesos[i][j]==pesos[j][i] && i<j) || pesos[i][j]<pesos[j][i])){
+                if(pesos[i][j]>0 && pesos[i][j]<=pesos[j][i]){
                     aresta = new float[3];
                     aresta[0] = pesos[i][j];
                     aresta[1] =  i;
@@ -202,40 +213,56 @@ public class Grafo<T> {
             aresta = menorAresta(filaArestas, filaVertices);
             o = Math.round(aresta[1]);
             d = Math.round(aresta[2]);
+            // Nova aresta é adicionada na Arvore Geradora Minima
             arvoreGM.adicionarAresta(verticePorIndex(o),verticePorIndex(d), aresta[0]);
-            cont+=1;
-            // System.out.println("--------------------------\n" + verticePorIndex(Math.round(aresta[1])).toString() + verticePorIndex(Math.round(aresta[2])).toString() + "\n Peso: " + aresta[0] );
-            filaArestas.remove(aresta);
-            if(o!= i){
-                v = vertices.get(o);
-            } else if(d!=i){
+            cont+=1; // quantidade de arestas aumenta +1
+
+            // Print da aresta adicionada e seus vértices
+            System.out.println("--------------------------\n" + verticePorIndex(Math.round(aresta[1])).toString() + verticePorIndex(Math.round(aresta[2])).toString() + "\n Peso: " + aresta[0] );
+            
+            /*A aresta adicionada na árvore é removida da fila e o vértice destino da aresta é removido da fila e adicionado em vertices visitados e na variável v, 
+            para que ele seja o próximo vertice análisado na próxima iteração do loop.*/
+            filaArestas.remove(aresta); 
+            if(d!= i){
                 v = vertices.get(d);
+            } else if(o!=i){
+                v = vertices.get(o);
             }
             verticesVisitados.add(v);
             filaVertices.remove(v); 
 
-        }while(cont<quantVertices-1);
+        }while(cont<quantVertices-1); // condição de repetição do loop 
+
         return arvoreGM;
     }
 
+    /**
+     * Retorna a aresta de menor peso da fila e que possui algum vértice que ainda não foi visitado.
+     *
+     * @param fila Fila de arestas.
+     * @param filaVertices Fila de vertices ainda não visitados.
+     */
     private float[] menorAresta(ArrayList<float[]> fila, ArrayList<Vertice<T>> filaVertices){
-        float menorPeso[] = null;
+        float menorPeso[] = null; // variável para armazenar aresta de menor peso
         float aresta[];
         Vertice<T> v1, v2;
+        // Loop que acessa cada vértice da fila
         for(int i=0; i<fila.size(); i++){
-            aresta = fila.get(i);
+            aresta = fila.get(i); 
             v1 = vertices.get(Math.round(aresta[1]));
             v2 = vertices.get(Math.round(aresta[2]));
+            // Verificador se algum dos vértices da aresta ainda não foi visitado, para evitar loops.
             if((filaVertices.contains(v1) || filaVertices.contains(v2))){
+                // Se for a primeira aresta a ser análisada o valor é atribuido a variavel.
                 if(menorPeso == null){
                     menorPeso = aresta;
                 }
+                // Se não uma comparação é feita para se encontrar a menor
                 else if(aresta[0]<menorPeso[0]){
                     menorPeso= aresta;
                 }
             }
         }
-        
         return menorPeso;
     }
 

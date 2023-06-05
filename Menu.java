@@ -93,10 +93,11 @@ public class Menu {
         float pesos[][] =  arvoreGM.getPesos();
 
         // Impressão para verificar se as arestas foram inseridas corretamente na ávore geradora minima
+        System.out.println("\nMatriz de Adjacencia");
         for(int i=0; i<arvoreGM.getQuantVertices();i++){
             for(int j=0; j<arvoreGM.getQuantVertices();j++){
                 System.out.print(pesos[i][j]);
-                System.out.print(" ");
+                System.out.print(",");
             }
             System.out.println("\n");
 
