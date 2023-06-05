@@ -173,13 +173,14 @@ public class Grafo<T> {
 
         for(Vertice<T> vert: vertices){
             filaVertices.add(vert);
+            arvoreGM.adicionarVertice(vert.getValor());
         }
         
         v = filaVertices.get(0);
+        verticesVisitados.add(v);
+        filaVertices.remove(v); 
 
         do{
-            verticesVisitados.add(v);
-            filaVertices.remove(v); 
             v = verticesVisitados.get(verticesVisitados.size()-1);
             i = v.getIndex();
             for(Vertice<T> adj:filaVertices){
@@ -195,39 +196,60 @@ public class Grafo<T> {
                     aresta[0] = pesos[j][i];
                     aresta[1] =  j;
                     aresta[2] = i;
+                    filaArestas.add(aresta);
                 }
             }
-            aresta = menorAresta(filaArestas);
+            aresta = menorAresta(filaArestas, filaVertices);
             o = Math.round(aresta[1]);
             d = Math.round(aresta[2]);
             arvoreGM.adicionarAresta(verticePorIndex(o),verticePorIndex(d), aresta[0]);
-            System.out.println("--------------------------\n" + verticePorIndex(Math.round(aresta[1])).toString() + verticePorIndex(Math.round(aresta[2])).toString() + "\n Peso: " + aresta[0] );
+            cont+=1;
+            // System.out.println("--------------------------\n" + verticePorIndex(Math.round(aresta[1])).toString() + verticePorIndex(Math.round(aresta[2])).toString() + "\n Peso: " + aresta[0] );
             filaArestas.remove(aresta);
             if(o!= i){
-                System.out.println(o+" e diferente de " + i);
                 v = vertices.get(o);
             } else if(d!=i){
-                System.out.println(d+" e diferente de " + i);
                 v = vertices.get(d);
             }
+            verticesVisitados.add(v);
+            filaVertices.remove(v); 
 
-
-        }while(filaVertices.size()>0);
+        }while(cont<quantVertices-1);
         return arvoreGM;
     }
 
-    private float[] menorAresta(ArrayList<float[]> fila){
-        float menorPeso[] = fila.get(0);
-        for(float[] aresta : fila){
-            System.out.println(aresta[0]);
-            if(aresta[0]<menorPeso[0]){
-                menorPeso= aresta;
+    private float[] menorAresta(ArrayList<float[]> fila, ArrayList<Vertice<T>> filaVertices){
+        float menorPeso[] = null;
+        float aresta[];
+        Vertice<T> v1, v2;
+        for(int i=0; i<fila.size(); i++){
+            aresta = fila.get(i);
+            v1 = vertices.get(Math.round(aresta[1]));
+            v2 = vertices.get(Math.round(aresta[2]));
+            if((filaVertices.contains(v1) || filaVertices.contains(v2))){
+                if(menorPeso == null){
+                    menorPeso = aresta;
+                }
+                else if(aresta[0]<menorPeso[0]){
+                    menorPeso= aresta;
+                }
             }
         }
         
         return menorPeso;
     }
 
+    public ArrayList<Vertice<T>> getVertices() {
+        return vertices;
+    }
+
+    public float[][] getPesos() {
+        return pesos;
+    }
+
+    public int getQuantVertices() {
+        return quantVertices;
+    }
 
 }
 
