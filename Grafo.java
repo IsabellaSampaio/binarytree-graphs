@@ -169,9 +169,10 @@ public class Grafo<T> {
         int cont = 0; // quantidade de arestas inseridas
         ArrayList<Vertice<T>> filaVertices = new ArrayList<>();// fila de vértices ainda não visitados
         ArrayList<Vertice<T>> verticesVisitados = new ArrayList<>();// Lista de vertices visitados
-        Vertice<T> v;
-        int i, j = 0;
-        Vertice<T> d, o;
+        Vertice<T> v; // Variavel para armazenar o vertice que será análisado
+        int i, j = 0; // variaveis para navegar pelos indexes
+        Vertice<T> d, o; // variaveis auxiliares para salvar destino e origem da aresta
+        float soma = 0; // Variável para a soma de todos os pesos das arestas adicionadas.
         
         // Adiciona os vertices do grafo na fila de vertices e na árvore.
         for(Vertice<T> vert: vertices){
@@ -216,9 +217,10 @@ public class Grafo<T> {
             // Nova aresta é adicionada na Arvore Geradora Minima
             arvoreGM.adicionarAresta(o.getValor(),d.getValor(), aresta[0]);
             cont+=1; // quantidade de arestas aumenta +1
+            soma+=aresta[0]; // soma o valor da aresta a soma total
 
             // Print da aresta adicionada e seus vértices
-            System.out.println("--------------------------\n" + verticePorIndex(Math.round(aresta[1])).toString() + verticePorIndex(Math.round(aresta[2])).toString() + "\n Peso: " + aresta[0] );
+            System.out.println("--------------------------\nOrigem:\n" + verticePorIndex(Math.round(aresta[1])).toString() + "\nDestino:\n"+verticePorIndex(Math.round(aresta[2])).toString() + "\n Peso: " + aresta[0] );
             
             /*A aresta adicionada na árvore é removida da fila e o vértice destino da aresta é removido da fila e adicionado em vertices visitados e na variável v, 
             para que ele seja o próximo vertice análisado na próxima iteração do loop.*/
@@ -233,6 +235,7 @@ public class Grafo<T> {
 
         }while(cont<quantVertices-1); // condição de repetição do loop 
 
+        System.out.println("Peso total da arvore: "+soma);
         return arvoreGM;
     }
 
