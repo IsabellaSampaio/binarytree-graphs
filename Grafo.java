@@ -171,7 +171,7 @@ public class Grafo<T> {
         ArrayList<Vertice<T>> verticesVisitados = new ArrayList<>();// Lista de vertices visitados
         Vertice<T> v;
         int i, j = 0;
-        int d, o = 0;
+        Vertice<T> d, o;
         
         // Adiciona os vertices do grafo na fila de vertices e na árvore.
         for(Vertice<T> vert: vertices){
@@ -202,7 +202,7 @@ public class Grafo<T> {
                     aresta[1] =  i;
                     aresta[2] = j;
                     filaArestas.add(aresta);
-                } else if(pesos[j][i]>0 && pesos[j][i]<pesos[i][j]){
+                } else if((pesos[i][j]==0 && pesos[j][i]>0) || (pesos[i][j]>0 && pesos[j][i]<pesos[i][j])){
                     aresta = new float[3];
                     aresta[0] = pesos[j][i];
                     aresta[1] =  j;
@@ -211,10 +211,10 @@ public class Grafo<T> {
                 }
             }
             aresta = menorAresta(filaArestas, filaVertices);
-            o = Math.round(aresta[1]);
-            d = Math.round(aresta[2]);
+            o = vertices.get(Math.round(aresta[1]));
+            d = vertices.get(Math.round(aresta[2]));
             // Nova aresta é adicionada na Arvore Geradora Minima
-            arvoreGM.adicionarAresta(verticePorIndex(o),verticePorIndex(d), aresta[0]);
+            arvoreGM.adicionarAresta(o.getValor(),d.getValor(), aresta[0]);
             cont+=1; // quantidade de arestas aumenta +1
 
             // Print da aresta adicionada e seus vértices
@@ -223,10 +223,10 @@ public class Grafo<T> {
             /*A aresta adicionada na árvore é removida da fila e o vértice destino da aresta é removido da fila e adicionado em vertices visitados e na variável v, 
             para que ele seja o próximo vertice análisado na próxima iteração do loop.*/
             filaArestas.remove(aresta); 
-            if(d!= i){
-                v = vertices.get(d);
-            } else if(o!=i){
-                v = vertices.get(o);
+            if(filaVertices.contains(o)){
+                v = o;
+            } else if(filaVertices.contains(d)){
+                v = d;
             }
             verticesVisitados.add(v);
             filaVertices.remove(v); 
