@@ -1,4 +1,5 @@
 // LUDMILA DIAS E ISABELLA SAMPAIO
+// Implementação do algoritmo de PRIM na geração de árvore Geradora Minima
 
 import java.util.ArrayList;
 import java.util.Comparator;
