@@ -1,7 +1,24 @@
 public class Vertice<T> {
     private T valor;  // Valor armazenado no vértice
     private int index;  // Índice do vértice
+    private float dist;
+    private T pred;
 
+    public float getDist() {
+        return dist;
+    }
+
+    public void setDist(float dist) {
+        this.dist = dist;
+    }
+
+    public T getPred() {
+        return pred;
+    }
+
+    public void setPred(T pred) {
+        this.pred = pred;
+    }
 
     public Vertice(T valor) {
         this.valor = valor;

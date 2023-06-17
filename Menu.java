@@ -1,11 +1,7 @@
 import java.util.Scanner;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileWriter;
 
 /**
  * Menu - Exibe as configurações e realiza as chamadas de métodos para cada processo.
@@ -47,7 +43,8 @@ public class Menu {
         System.out.println("[1] Obter Cidades Vizinhas");
         System.out.println("[2] Obter todos os caminhos de uma cidade à outra");
         System.out.println("[3] Calcular Árvore geradora mínima");
-        System.out.println("[4] Sair");
+        System.out.println("[4] Obter caminho minimo de uma cidade à outra");
+        System.out.println("[5] Sair");
         System.out.println("_________________________________________\n");
     }
 
@@ -104,6 +101,19 @@ public class Menu {
         }
         System.out.println("Aperte enter para voltar ao menu.");
         scan.nextLine();
+    }
+
+    public void exibirCaminhoMinimo(){
+        limpaTela();
+        int origem = 0;
+        int dest = 0;
+        System.out.println("Informe a cidade de origem: ");
+        origem = scan.nextInt();
+        // System.out.println("Informe a cidade de destino: ");
+        // dest = scan.nextInt();
+
+        grafo.caminhoMin(new Cidade(origem, ""), new Cidade(dest, ""));
+
     }
 
     /**
@@ -163,6 +173,8 @@ public class Menu {
                 gerarArvoreGM();
                 return true;
             case 4:
+                exibirCaminhoMinimo();
+            case 5:
                 System.out.println("Saindo do programa.");
                 return true;
             default:

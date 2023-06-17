@@ -2,6 +2,8 @@
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
+import java.util.PriorityQueue;
 
 public class Grafo<T> {
     private final ArrayList<Vertice<T>> vertices;  // Lista de vértices do grafo
@@ -129,6 +131,23 @@ public class Grafo<T> {
                 }
             }
             return v;
+        } else {
+            System.out.println("Valor inserido inválido.");
+            return null;
+        }
+    }
+
+    public ArrayList<Vertice<T>> obterVarVizinhos(T valor){
+        Vertice<T> v = verticePorValor(valor);
+        ArrayList<Vertice<T>> vAux = new ArrayList<Vertice<T>>();
+        if (v != null) {
+            for (int i = 0; i < vertices.size(); i++) {
+                if(pesos[v.getIndex()][i]>0 && i!=v.getIndex())
+                    vAux.add(vertices.get(i));
+                else if(pesos[i][v.getIndex()]>0 && i!=v.getIndex())
+                    vAux.add(vertices.get(i));
+            }
+            return vAux;
         } else {
             System.out.println("Valor inserido inválido.");
             return null;
@@ -266,6 +285,7 @@ public class Grafo<T> {
         return menorPeso;
     }
 
+
     public ArrayList<Vertice<T>> getVertices() {
         return vertices;
     }
@@ -276,6 +296,31 @@ public class Grafo<T> {
 
     public int getQuantVertices() {
         return quantVertices;
+    }
+
+    public void caminhoMin(T origem, T destino){
+        //criando lista dos vertices rotulados e nao rotulados
+        ArrayList<Vertice<T>> nr = new ArrayList<Vertice<T>>();
+        ArrayList<Vertice<T>> r = new ArrayList<Vertice<T>>();
+
+
+        Vertice<T> o = new Vertice<T>(origem);
+        Vertice<T> d = new Vertice<T>(destino);
+
+        //adiciona os nós vizinhos ao nó de origem
+        nr = obterVarVizinhos(origem);
+
+        //define o valor de destino do nó de origem como 0 e seu predescesor como -1
+        o.setDist(0);
+        o.setPred(null);
+
+        for(int i = 0; i < nr.size(); i++){
+            nr.get(i).setDist(pesos[nr.get(i).getIndex()][i]);
+            nr.get(i).setPred(o.getValor());
+            System.out.println(nr.get(i).getDist()); //valor de distancia (peso da aresta)
+            System.out.println(nr.get(i).getPred()); //vertice predescesor 
+        }
+
     }
 
 }
