@@ -326,6 +326,7 @@ public class Grafo<T> {
         return quantVertices;
     }
 
+
     /*
      * Função publica que a partir de dois valores de id da cidade encontram o caminho mínimo entre elas
      * Chama a função privada caminhoMinDijkstra
@@ -362,6 +363,9 @@ public class Grafo<T> {
         //criando a variavel menor distancia para podermos sempre atualizar o valor do verticeMenorPeso de acord
         //e podermos atualizar o vértice atual sempre com o valor de menor distancia (menor peso de aresta)
         float menorDist = Float.MAX_VALUE;
+
+        // add isso aqui --v
+        vAtual.setPred(null);
         
         menorCaminho.add(origem.getValor());
 
@@ -373,6 +377,8 @@ public class Grafo<T> {
                 this.vertices.get(i).setDist(menorDist);
             }
             verticesNaoRotulados.add(this.vertices.get(i));
+            // add isso aqui --v
+            this.vertices.get(i).setVisitado(false);
 
         }    
         
@@ -394,28 +400,36 @@ public class Grafo<T> {
             vAtual = verticeMenorPeso;
             
             System.out.println("\nVértice atual: \n" + vAtual.getValor());
-            
-            for(int i = 0; i < obterVizinhos(vAtual.getValor()).size(); i++){
+            ArrayList<Vertice<T>> vizinhos = obterVizinhos(vAtual.getValor());
+
+            for(Vertice<T> vizin : vizinhos){
+                System.out.println(vizin.getValor().toString());
+            }
+
+            for(int i = 0; i < vizinhos.size(); i++){
 
                 //inicializando o vértice vizinho 
-                vizinho = obterVizinhos(vAtual.getValor()).get(i);
+                vizinho = vizinhos.get(i);
                 System.out.println("\nOlhando o vizinho: \n" + vizinho.getValor());
 
                 //verifica se o vértice vizinho já foi visitado ou não 
                 if(!vizinho.isVisitado()){
-
+                    System.out.println("Entrou na bomba");
+                    ArrayList<Float> pesosVizinhos = obterPesosVizinhos(vAtual.getValor());
                     //verifica se a distancia do vértice vizinho é maior do que a distancia dos vizinhos do vértice atual
-                    if(vizinho.getDist() > obterPesosVizinhos(vAtual.getValor()).get(i)){
-                        vizinho.setDist(obterPesosVizinhos(vAtual.getValor()).get(i));
+                    if(vizinho.getDist() > pesosVizinhos.get(i)){
+                        System.out.println("achou peso menor");
+                        vizinho.setDist(pesosVizinhos.get(i));
                         vizinho.setPred(vAtual.getValor());
 
                         //verificando se o vértice é o vértice destino e se teve uma mudança de distancia 
-                        //se sim então apaga a atual lista de menor caminho e então a lista é atualiza com um caminho contendo distancias menores
+                        //se sim então apaga a atual lista de menor caminho e então a lista é atualizada com um caminho contendo distancias menores
                         if(comparador.compare(vizinho.getValor(), destino.getValor()) == 0){
                             menorCaminho.clear();
                             verticeMenorPeso = vizinho;
                             menorCaminho.add(vizinho.getValor());
 
+                            // Está rodando infinito nesse loop dependendo da escolha de vOrigem e vDestino
                             while(verticeMenorPeso.getPred() != null){
                                 menorCaminho.add(verticeMenorPeso.getPred());
                                 verticeMenorPeso = obterVertice(verticeMenorPeso.getPred());

@@ -120,7 +120,24 @@ public class Menu {
     }
 
     public void exibirCaminhoMinimoAGM(){
-        System.out.println("Em construção");
+        limpaTela();
+        int origem = 0;
+        int dest = 0;
+        System.out.println("Informe a cidade de origem: ");
+        origem = scan.nextInt();
+        System.out.println("Informe a cidade de destino: ");
+        dest = scan.nextInt();
+
+        if(arvoreGM==null){
+            arvoreGM = grafo.gerarArvoreGM();
+        }
+        
+        limpaTela();
+        arvoreGM.caminhoMin(new Cidade(origem, ""), new Cidade(dest, ""));
+
+        System.out.println("Aperte enter para voltar ao menu.");
+        scan.nextLine();
+        scan.nextLine();
     }
 
     /**
