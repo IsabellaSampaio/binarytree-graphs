@@ -1,7 +1,6 @@
 // LUDMILA DIAS E ISABELLA SAMPAIO
 // Implementação do algoritmo de PRIM na geração de árvore Geradora Minima
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -331,6 +330,14 @@ public class Grafo<T> {
      * Chama a função privada caminhoMinDijkstra
      */
     public void caminhoMin(T origem, T destino){
+
+        //redefinindo os estados de distancia, predecessor e estados de visita de cada vértice
+        for (Vertice<T> vertice : this.vertices) {
+            vertice.setDist(Float.MAX_VALUE);
+            vertice.setPred(null);
+            vertice.setVisitado(false);
+        }
+
         //cria os novos vértices de origem e destino
         Vertice<T> o = new Vertice<T>(origem);
         Vertice<T> d = new Vertice<T>(destino);
@@ -393,20 +400,20 @@ public class Grafo<T> {
             //atualizando o valor do vértice atual de acordo com o vértice de menor distância
             vAtual = verticeMenorPeso;
             
-            System.out.println("\nVértice atual: \n" + vAtual.getValor());
+            //System.out.println("\nVértice atual: \n" + vAtual.getValor());
             
             for(int i = 0; i < obterVizinhos(vAtual.getValor()).size(); i++){
 
                 //inicializando o vértice vizinho 
                 vizinho = obterVizinhos(vAtual.getValor()).get(i);
-                System.out.println("\nOlhando o vizinho: \n" + vizinho.getValor());
+                //System.out.println("\nOlhando o vizinho: \n" + vizinho.getValor());
 
                 //verifica se o vértice vizinho já foi visitado ou não 
                 if(!vizinho.isVisitado()){
 
                     //verifica se a distancia do vértice vizinho é maior do que a distancia dos vizinhos do vértice atual
-                    if(vizinho.getDist() > obterPesosVizinhos(vAtual.getValor()).get(i)){
-                        vizinho.setDist(obterPesosVizinhos(vAtual.getValor()).get(i));
+                    if(vizinho.getDist() > vAtual.getDist() + obterPesosVizinhos(vAtual.getValor()).get(i)){
+                        vizinho.setDist(vAtual.getDist() + obterPesosVizinhos(vAtual.getValor()).get(i));
                         vizinho.setPred(vAtual.getValor());
 
                         //verificando se o vértice é o vértice destino e se teve uma mudança de distancia 
@@ -420,14 +427,12 @@ public class Grafo<T> {
                                 menorCaminho.add(verticeMenorPeso.getPred());
                                 verticeMenorPeso = obterVertice(verticeMenorPeso.getPred());
                             }
+                            //espelhando a lista pra que ela apresente o caminho de maneira correta (origem ---> destino)
+                            Collections.reverse(menorCaminho);
                         }
                     }
                 }
-            }
-
-            //espelhando a lista pra que ela apresente o caminho de maneira correta (origem ---> destino)
-            Collections.reverse((List<T>) menorCaminho);
-            
+            }            
             //setando o status de visitado do vértice atual pra True e removendo ele da lista de verticesNaoRotulados
             vAtual.setVisitado(true);
             verticesNaoRotulados.remove(vAtual);
@@ -438,6 +443,9 @@ public class Grafo<T> {
         return menorCaminho;
 
     }
+
+    
+
 }
 
 

@@ -106,21 +106,42 @@ public class Menu {
 
     public void exibirCaminhoMinimo(){
         limpaTela();
-        int origem = 0;
-        int dest = 0;
+        int origem;
+        int dest;
+
         System.out.println("Informe a cidade de origem: ");
         origem = scan.nextInt();
+        scan.nextLine(); // Consumir o caractere de nova linha
+
         System.out.println("Informe a cidade de destino: ");
         dest = scan.nextInt();
+        scan.nextLine(); // Consumir o caractere de nova linha
 
         grafo.caminhoMin(new Cidade(origem, ""), new Cidade(dest, ""));
 
-        System.out.println("Aperte enter para voltar ao menu.");
+        System.out.println("\n\nAperte enter para voltar ao menu.");
         scan.nextLine();
     }
 
+
     public void exibirCaminhoMinimoAGM(){
-        System.out.println("Em construção");
+        limpaTela();
+        arvoreGM = grafo.gerarArvoreGM();
+        int origem;
+        int dest;
+
+        System.out.println("Informe a cidade de origem: ");
+        origem = scan.nextInt();
+        scan.nextLine(); // Consumir o caractere de nova linha
+
+        System.out.println("Informe a cidade de destino: ");
+        dest = scan.nextInt();
+        scan.nextLine(); // Consumir o caractere de nova linha
+
+        arvoreGM.caminhoMin(new Cidade(origem, ""), new Cidade(dest, ""));
+        System.out.println("\n\nAperte enter para voltar ao menu.");
+        scan.nextLine();
+
     }
 
     /**
@@ -181,8 +202,10 @@ public class Menu {
                 return true;
             case 4:
                 exibirCaminhoMinimo();
+                return true;
             case 5: 
                 exibirCaminhoMinimoAGM();
+                return true;
             case 6:
                 System.out.println("Saindo do programa.");
                 return true;

@@ -16,7 +16,7 @@ public class App {
         Menu menu = new Menu(scan, opcao);
         menu.lerArq();
         
-        while (opcao != 4) {
+        while (opcao != 6) {
             menu.menu();
             opcao = menu.lerOpcaoMenu();
             menu.escolheMenu(opcao);
