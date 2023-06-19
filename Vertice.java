@@ -3,6 +3,15 @@ public class Vertice<T> {
     private int index;  // Índice do vértice
     private float dist;
     private T pred;
+    private boolean visitado = false;
+
+    public boolean isVisitado() {
+        return visitado;
+    }
+
+    public void setVisitado(boolean visitado) {
+        this.visitado = visitado;
+    }
 
     public float getDist() {
         return dist;

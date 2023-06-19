@@ -43,8 +43,9 @@ public class Menu {
         System.out.println("[1] Obter Cidades Vizinhas");
         System.out.println("[2] Obter todos os caminhos de uma cidade à outra");
         System.out.println("[3] Calcular Árvore geradora mínima");
-        System.out.println("[4] Obter caminho minimo de uma cidade à outra");
-        System.out.println("[5] Sair");
+        System.out.println("[4] Calcular caminho minimo entre duas cidades");
+        System.out.println("[5] Calcular caminho minimo entre duas cidades considerando apenas a AGM");
+        System.out.println("[6] Sair");
         System.out.println("_________________________________________\n");
     }
 
@@ -109,11 +110,17 @@ public class Menu {
         int dest = 0;
         System.out.println("Informe a cidade de origem: ");
         origem = scan.nextInt();
-        // System.out.println("Informe a cidade de destino: ");
-        // dest = scan.nextInt();
+        System.out.println("Informe a cidade de destino: ");
+        dest = scan.nextInt();
 
         grafo.caminhoMin(new Cidade(origem, ""), new Cidade(dest, ""));
 
+        System.out.println("Aperte enter para voltar ao menu.");
+        scan.nextLine();
+    }
+
+    public void exibirCaminhoMinimoAGM(){
+        System.out.println("Em construção");
     }
 
     /**
@@ -174,7 +181,9 @@ public class Menu {
                 return true;
             case 4:
                 exibirCaminhoMinimo();
-            case 5:
+            case 5: 
+                exibirCaminhoMinimoAGM();
+            case 6:
                 System.out.println("Saindo do programa.");
                 return true;
             default:

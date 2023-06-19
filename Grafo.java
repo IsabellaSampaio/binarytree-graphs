@@ -1,8 +1,11 @@
 // LUDMILA DIAS E ISABELLA SAMPAIO
 // Implementação do algoritmo de PRIM na geração de árvore Geradora Minima
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 
 public class Grafo<T> {
     private final ArrayList<Vertice<T>> vertices;  // Lista de vértices do grafo
@@ -136,9 +139,11 @@ public class Grafo<T> {
         }
     }
 
-    public ArrayList<Vertice<T>> obterVarVizinhos(T valor){
+    //Mesmo método que o obterVerVizinhos porém aqui, retorna uma lista dos vértices vizinhos do valor passado como parametro
+    public ArrayList<Vertice<T>> obterVizinhos(T valor){
         Vertice<T> v = verticePorValor(valor);
         ArrayList<Vertice<T>> vAux = new ArrayList<Vertice<T>>();
+
         if (v != null) {
             for (int i = 0; i < vertices.size(); i++) {
                 if(pesos[v.getIndex()][i]>0 && i!=v.getIndex())
@@ -146,7 +151,33 @@ public class Grafo<T> {
                 else if(pesos[i][v.getIndex()]>0 && i!=v.getIndex())
                     vAux.add(vertices.get(i));
             }
+
             return vAux;
+
+        } else {
+            System.out.println("Valor inserido inválido.");
+            return null;
+        }
+    }
+
+    /*Semelhante ao método obterVerVizinhos porém aqui retorna-se
+    *uma lista contendo o peso dos vértices vizinhos do valor passado como parametro
+    */
+    public ArrayList<Float> obterPesosVizinhos(T valor){
+        Vertice<T> v = verticePorValor(valor);
+        ArrayList<Float> pesosVizinhos = new ArrayList<Float>();
+
+        if (v != null) {
+            for (int i = 0; i < vertices.size(); i++) {
+                if(pesos[v.getIndex()][i]>0 && i!=v.getIndex())
+                    pesosVizinhos.add(pesos[v.getIndex()][i]);
+                
+                else if(pesos[i][v.getIndex()]>0 && i!=v.getIndex())
+                    pesosVizinhos.add(pesos[i][v.getIndex()]);
+            }
+
+            return pesosVizinhos;
+
         } else {
             System.out.println("Valor inserido inválido.");
             return null;
@@ -274,7 +305,7 @@ public class Grafo<T> {
                     menorPeso = aresta;
                 }
                 // Se não uma comparação é feita para se encontrar a menor
-                else if(aresta[0]<menorPeso[0]){
+                else if(aresta[0]<menorPeso[0]){    
                     menorPeso= aresta;
                 }
             }
@@ -295,31 +326,118 @@ public class Grafo<T> {
         return quantVertices;
     }
 
+    /*
+     * Função publica que a partir de dois valores de id da cidade encontram o caminho mínimo entre elas
+     * Chama a função privada caminhoMinDijkstra
+     */
     public void caminhoMin(T origem, T destino){
-        //criando lista dos vertices rotulados e nao rotulados
-        ArrayList<Vertice<T>> nr = new ArrayList<Vertice<T>>();
-        ArrayList<Vertice<T>> r = new ArrayList<Vertice<T>>();
-
-
+        //cria os novos vértices de origem e destino
         Vertice<T> o = new Vertice<T>(origem);
         Vertice<T> d = new Vertice<T>(destino);
 
-        //adiciona os nós vizinhos ao nó de origem
-        nr = obterVarVizinhos(origem);
+        //cria o arraylist que vai receber o resultado da função caminhoMinDijkstra
+        ArrayList<T> caminhoMinimo = caminhoMinDijsktra(o, d);
 
-        //define o valor de destino do nó de origem como 0 e seu predescesor como -1
-        o.setDist(0);
-        o.setPred(null);
-
-        for(int i = 0; i < nr.size(); i++){
-            nr.get(i).setDist(pesos[nr.get(i).getIndex()][i]);
-            nr.get(i).setPred(o.getValor());
-            System.out.println(nr.get(i).getDist()); //valor de distancia (peso da aresta)
-            System.out.println(nr.get(i).getPred()); //vertice predescesor 
+        //imprime o caminho minimo
+        System.out.println("\nO caminho mínimo entre a cidade Origem e a cidade Destino é: \n");
+        for(int i = 0; i < caminhoMinimo.size(); i++){
+            System.out.println(caminhoMinimo.get(i));
         }
 
     }
 
+    /*
+     * Função privada que implementa o algoritmo do caminho mínimo de Dijsktra
+    */
+
+    private ArrayList<T> caminhoMinDijsktra(Vertice<T> origem, Vertice<T> destino){
+        ArrayList<T> menorCaminho = new ArrayList<T>(); //array que armazena o caminho minimo entre as duas cidades
+        ArrayList<Vertice<T>> verticesNaoRotulados = new ArrayList<Vertice<T>>(); //array que armazena os vertices nao rotulados
+
+        //criando os vertices que serao utilizados para o processamento do algoritmo
+        Vertice<T> vAtual = origem;
+        Vertice<T> vizinho = null;
+        Vertice<T> verticeMenorPeso = null;
+
+        //criando a variavel menor distancia para podermos sempre atualizar o valor do verticeMenorPeso de acord
+        //e podermos atualizar o vértice atual sempre com o valor de menor distancia (menor peso de aresta)
+        float menorDist = Float.MAX_VALUE;
+        
+        menorCaminho.add(origem.getValor());
+
+        //adicionando as distancias inicias
+        for(int i = 0; i < this.vertices.size(); i++){
+            if(comparador.compare(this.vertices.get(i).getValor(), origem.getValor()) == 0){
+                this.vertices.get(i).setDist(0);
+            } else{
+                this.vertices.get(i).setDist(menorDist);
+            }
+            verticesNaoRotulados.add(this.vertices.get(i));
+
+        }    
+        
+        /*
+         * Realiza o processamento enquanto a lista de nós rotulados ainda nao estiver vazia
+         */
+        while(!verticesNaoRotulados.isEmpty()){           
+            
+            //verificando o vértice de menor distância
+            menorDist = Float.MAX_VALUE;
+            for(Vertice<T> vertice: verticesNaoRotulados){
+                if(vertice.getDist() < menorDist){
+                    menorDist = vertice.getDist();
+                    verticeMenorPeso = vertice;
+                }
+            }
+
+            //atualizando o valor do vértice atual de acordo com o vértice de menor distância
+            vAtual = verticeMenorPeso;
+            
+            System.out.println("\nVértice atual: \n" + vAtual.getValor());
+            
+            for(int i = 0; i < obterVizinhos(vAtual.getValor()).size(); i++){
+
+                //inicializando o vértice vizinho 
+                vizinho = obterVizinhos(vAtual.getValor()).get(i);
+                System.out.println("\nOlhando o vizinho: \n" + vizinho.getValor());
+
+                //verifica se o vértice vizinho já foi visitado ou não 
+                if(!vizinho.isVisitado()){
+
+                    //verifica se a distancia do vértice vizinho é maior do que a distancia dos vizinhos do vértice atual
+                    if(vizinho.getDist() > obterPesosVizinhos(vAtual.getValor()).get(i)){
+                        vizinho.setDist(obterPesosVizinhos(vAtual.getValor()).get(i));
+                        vizinho.setPred(vAtual.getValor());
+
+                        //verificando se o vértice é o vértice destino e se teve uma mudança de distancia 
+                        //se sim então apaga a atual lista de menor caminho e então a lista é atualiza com um caminho contendo distancias menores
+                        if(comparador.compare(vizinho.getValor(), destino.getValor()) == 0){
+                            menorCaminho.clear();
+                            verticeMenorPeso = vizinho;
+                            menorCaminho.add(vizinho.getValor());
+
+                            while(verticeMenorPeso.getPred() != null){
+                                menorCaminho.add(verticeMenorPeso.getPred());
+                                verticeMenorPeso = obterVertice(verticeMenorPeso.getPred());
+                            }
+                        }
+                    }
+                }
+            }
+
+            //espelhando a lista pra que ela apresente o caminho de maneira correta (origem ---> destino)
+            Collections.reverse((List<T>) menorCaminho);
+            
+            //setando o status de visitado do vértice atual pra True e removendo ele da lista de verticesNaoRotulados
+            vAtual.setVisitado(true);
+            verticesNaoRotulados.remove(vAtual);
+                
+        }
+
+        //retornando a lista que contém o menor caminho entra duas cidades
+        return menorCaminho;
+
+    }
 }
 
 
