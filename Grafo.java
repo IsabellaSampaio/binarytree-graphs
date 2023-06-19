@@ -383,8 +383,6 @@ public class Grafo<T> {
                 this.vertices.get(i).setDist(menorDist);
             }
             verticesNaoRotulados.add(this.vertices.get(i));
-            // add isso aqui --v
-            this.vertices.get(i).setVisitado(false);
 
         }    
         
@@ -418,7 +416,7 @@ public class Grafo<T> {
                     //verifica se a distancia do vértice vizinho é maior do que a distancia dos vizinhos do vértice atual
                     if(vizinho.getDist() > vAtual.getDist() + obterPesosVizinhos(vAtual.getValor()).get(i)){
                         vizinho.setDist(vAtual.getDist() + obterPesosVizinhos(vAtual.getValor()).get(i));
-
+                        vizinho.setPred(vAtual.getValor());
                         //verificando se o vértice é o vértice destino e se teve uma mudança de distancia 
                         //se sim então apaga a atual lista de menor caminho e então a lista é atualizada com um caminho contendo distancias menores
                         if(comparador.compare(vizinho.getValor(), destino.getValor()) == 0){
@@ -426,7 +424,6 @@ public class Grafo<T> {
                             verticeMenorPeso = vizinho;
                             menorCaminho.add(vizinho.getValor());
 
-                            // Está rodando infinito nesse loop dependendo da escolha de vOrigem e vDestino
                             while(verticeMenorPeso.getPred() != null){
                                 menorCaminho.add(verticeMenorPeso.getPred());
                                 verticeMenorPeso = obterVertice(verticeMenorPeso.getPred());
