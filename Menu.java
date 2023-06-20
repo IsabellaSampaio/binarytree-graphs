@@ -119,7 +119,7 @@ public class Menu {
 
         grafo.caminhoMin(new Cidade(origem, ""), new Cidade(dest, ""));
 
-        System.out.println("\n\nAperte enter para voltar ao menu.");
+        System.out.println("\nAperte enter para voltar ao menu.");
         scan.nextLine();
     }
 
@@ -139,8 +139,8 @@ public class Menu {
         scan.nextLine(); // Consumir o caractere de nova linha
 
         arvoreGM.caminhoMin(new Cidade(origem, ""), new Cidade(dest, ""));
-        
-        System.out.println("\n\nAperte enter para voltar ao menu.");
+
+        System.out.println("\nAperte enter para voltar ao menu.");
         scan.nextLine();
 
     }
