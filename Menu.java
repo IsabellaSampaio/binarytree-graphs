@@ -45,7 +45,8 @@ public class Menu {
         System.out.println("[3] Calcular Árvore geradora mínima");
         System.out.println("[4] Calcular caminho minimo entre duas cidades");
         System.out.println("[5] Calcular caminho minimo entre duas cidades considerando apenas a AGM");
-        System.out.println("[6] Sair");
+        System.out.println("[6] Calcular Fluxo Máximo");
+        System.out.println("[7] Sair");
         System.out.println("_________________________________________\n");
     }
 
@@ -111,7 +112,7 @@ public class Menu {
 
         System.out.println("Informe a cidade de origem: ");
         origem = scan.nextInt();
-        scan.nextLine(); // Consumir o caractere de nova linha
+        scan.nextLine();
 
         System.out.println("Informe a cidade de destino: ");
         dest = scan.nextInt();
@@ -122,7 +123,6 @@ public class Menu {
         System.out.println("\nAperte enter para voltar ao menu.");
         scan.nextLine();
     }
-
 
     public void exibirCaminhoMinimoAGM(){
         limpaTela();
@@ -144,6 +144,24 @@ public class Menu {
         scan.nextLine();
 
     }
+
+    public void exibirFluxoMaximo(){
+        limpaTela();
+        int origem;
+        int dest;
+
+        System.out.println("Informe a cidade de origem");
+        origem = scan.nextInt();
+        scan.nextLine();
+
+        System.out.println("Informe a cidade de destino");
+        dest = scan.nextInt();
+        scan.nextLine();
+
+        System.out.println("\nAperte enter para voltar ao menu.");
+        scan.nextLine();
+    }
+
 
     /**
      * Lê um arquivo contendo informações sobre as cidades e cria o grafo correspondente.
@@ -208,6 +226,9 @@ public class Menu {
                 exibirCaminhoMinimoAGM();
                 return true;
             case 6:
+                exibirFluxoMaximo();
+                return true;
+            case 7:
                 System.out.println("Saindo do programa.");
                 return true;
             default:
