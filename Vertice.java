@@ -68,4 +68,13 @@ public class Vertice<T> {
     public int getIndex() {
         return index;
     }
+
+    public int getIntValor() {
+        if (valor instanceof Integer) {
+            return (int) valor;
+        } else {
+            // Handle other cases accordingly
+            return 0;
+        }
+    }
 }

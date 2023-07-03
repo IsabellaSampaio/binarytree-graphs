@@ -4,6 +4,7 @@
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.LinkedList;
 
 public class Grafo<T> {
     private final ArrayList<Vertice<T>> vertices;  // Lista de vértices do grafo
@@ -442,5 +443,68 @@ public class Grafo<T> {
 
         //retornando a lista que contém o menor caminho entra duas cidades
         return menorCaminho;
+    }
+    
+    //algoritmo de busca em largura no grafo, faz a busca de acordo com os seguintes parametros
+    //o -> origem; d-> destino, grafo -> matriz de adjacencia do grafo (os pesos das arestas que ligam os vertices)
+    //p -> 
+    private boolean bfs(float grafo[][], int o, int d, int p[]) {
+        boolean marcados[] = new boolean[this.quantVertices];
+        for(int i = 0; i < this.quantVertices; i++){
+            marcados[i] = false;
+        }
+
+        LinkedList<Integer> queue = new LinkedList<Integer>();
+        queue.add(o);
+        marcados[o] = true;
+        p[o] = -1;
+
+        while(queue.size() > 0){
+            int u = queue.poll();
+
+            for(int v = 0; v < this.quantVertices; v++){
+                if(marcados[v] == false && grafo[u][v] > 0){
+                    queue.add(v);
+                    p[v] = u;
+                    marcados[v] = true;
+                }
+            }
+        }
+        return (marcados[d] == true);
+    }
+       
+    public float fordFulkerson(int o, int d){
+        int u, v;
+        int origem = o - 1;
+        int destino = d - 1;
+        float matrizResidual[][] = new float[this.quantVertices][this.quantVertices];
+
+        for(u = 0; u < this.quantVertices; u++){
+            for(v = 0; v < this.quantVertices; v++){
+                matrizResidual[u][v] = pesos[u][v];
+            }
+        }
+
+        int p[] = new int[this.quantVertices];
+        float fluxoMax = 0;
+
+        while(bfs(matrizResidual, origem, destino, p)){
+            Float caminho = Float.MAX_VALUE;
+            for(v = destino; v!= origem; v = p[v]){
+                u = p[v];
+                caminho = Math.min(caminho, matrizResidual[u][v]);
+            }
+
+            for(v = destino; v != origem; v = p[v]){
+                u = p[v];
+                matrizResidual[u][v] -= caminho;
+                matrizResidual[v][u] += caminho;
+            }
+
+            fluxoMax += caminho;
+        }
+
+        System.out.println("Fluxo máximo: " + fluxoMax);
+        return fluxoMax;
     }
 }
