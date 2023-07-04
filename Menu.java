@@ -158,8 +158,7 @@ public class Menu {
         dest = scan.nextInt();
         scan.nextLine();
 
-        grafo.fordFulkerson(origem, dest);
-
+        System.out.println("O fluxo máximo entre os pontos: " + origem + " e " + dest + " é: " + grafo.fordFulkerson(origem, dest));
         System.out.println("\nAperte enter para voltar ao menu.");
         scan.nextLine();
     }

@@ -444,67 +444,109 @@ public class Grafo<T> {
         //retornando a lista que contém o menor caminho entra duas cidades
         return menorCaminho;
     }
-    
-    //algoritmo de busca em largura no grafo, faz a busca de acordo com os seguintes parametros
-    //o -> origem; d-> destino, grafo -> matriz de adjacencia do grafo (os pesos das arestas que ligam os vertices)
-    //p -> 
-    private boolean bfs(float grafo[][], int o, int d, int p[]) {
+
+    /*
+     * Parâmetros de entrada:
+        grafo[][]: Uma matriz de adjacência que representa o grafo.
+        o: Nó de origem.
+        d: Nó de destino.
+        peso[]: Um array que armazena os pesos dos caminhos encontrados durante a busca.
+     */
+    private boolean bfs(float grafo[][], int o, int d, int peso[]) {
         boolean marcados[] = new boolean[this.quantVertices];
         for(int i = 0; i < this.quantVertices; i++){
             marcados[i] = false;
         }
 
-        LinkedList<Integer> queue = new LinkedList<Integer>();
-        queue.add(o);
+        LinkedList<Integer> fila = new LinkedList<Integer>();
+        fila.add(o);
         marcados[o] = true;
-        p[o] = -1;
+        peso[o] = -1;
 
-        while(queue.size() > 0){
-            int u = queue.poll();
+        while(fila.size() > 0){
+            int valorAtual = fila.poll();
 
-            for(int v = 0; v < this.quantVertices; v++){
-                if(marcados[v] == false && grafo[u][v] > 0){
-                    queue.add(v);
-                    p[v] = u;
-                    marcados[v] = true;
+            for(int i = 0; i < this.quantVertices; i++){
+                if(marcados[i] == false && grafo[valorAtual][i] > 0){
+                    fila.add(i);
+                    peso[i] = valorAtual;
+                    marcados[i] = true;
                 }
             }
         }
-        return (marcados[d] == true);
+        return (marcados[d]);
     }
+
+    /*
+     * Descrição:
+     
+        A função utiliza o algoritmo de busca em largura, (um pouco diferente da outra função já existente buscaEmLargura, para que pudesse funcionar o algoritmo de ford fulkerson) para encontrar um caminho no grafo a partir do nó de origem até o nó de destino.
+        A variável marcados[] é um array booleano que indica se um nó foi visitado ou não durante a busca. Inicialmente, todos os nós são marcados como não visitados.
+        É criada uma fila para armazenar os nós a serem visitados. O nó de origem é adicionado na fila, marcado como visitado e com peso -1.
+        Enquanto a fila não estiver vazia, alguns passos são executados: 
+
+        * Remove o primeiro nó da fila 
+        * Verifica todos os nós vizinhos de valorAtual (representados pela variável i)
+        * Se o nó vizinho de i não tiver sido visitado e houver uma aresta entre valorAtual e i no grafo (peso maior que 0), adiciona v na fila, atualiza o peso de i para valorAtual, e marca i como visitado.
+        * Retorna true se o nó de destino foi marcado como visitado durante a busca.
+
+    */
+
+
+    /*
+     * Parâmetros de entrada:
+        o: Nó de origem.
+        d: Nó de destino.
+     */
        
     public float fordFulkerson(int o, int d){
-        int u, v;
+        int valorAtual, vertice;
         int origem = o - 1;
         int destino = d - 1;
         float matrizResidual[][] = new float[this.quantVertices][this.quantVertices];
 
-        for(u = 0; u < this.quantVertices; u++){
-            for(v = 0; v < this.quantVertices; v++){
-                matrizResidual[u][v] = pesos[u][v];
+        for(valorAtual = 0; valorAtual < this.quantVertices; valorAtual++){
+            for(vertice = 0; vertice < this.quantVertices; vertice++){
+                matrizResidual[valorAtual][vertice] = pesos[valorAtual][vertice];
             }
         }
 
-        int p[] = new int[this.quantVertices];
+        int peso[] = new int[this.quantVertices];
         float fluxoMax = 0;
 
-        while(bfs(matrizResidual, origem, destino, p)){
+        while(bfs(matrizResidual, origem, destino, peso)){
             Float caminho = Float.MAX_VALUE;
-            for(v = destino; v!= origem; v = p[v]){
-                u = p[v];
-                caminho = Math.min(caminho, matrizResidual[u][v]);
+            for(vertice = destino; vertice!= origem; vertice = peso[vertice]){
+                valorAtual = peso[vertice];
+                caminho = Math.min(caminho, matrizResidual[valorAtual][vertice]);
             }
 
-            for(v = destino; v != origem; v = p[v]){
-                u = p[v];
-                matrizResidual[u][v] -= caminho;
-                matrizResidual[v][u] += caminho;
+            for(vertice = destino; vertice != origem; vertice = peso[vertice]){
+                valorAtual = peso[vertice];
+                matrizResidual[valorAtual][vertice] -= caminho;
+                matrizResidual[vertice][valorAtual] += caminho;
             }
 
             fluxoMax += caminho;
         }
 
-        System.out.println("Fluxo máximo: " + fluxoMax);
         return fluxoMax;
     }
+
+    /*
+     * Descrição:
+        A função implementa o algoritmo Ford-Fulkerson para encontrar o fluxo máximo no grafo.
+
+        * Primeiramente é inicializado algumas variáveis e é criado uma matriz residual (cópia da matriz de pesos do grafo).
+        * Depois é inicializado o fluxoMax como 0.
+        * O algoritmo começa e entra no loop que seguirá enquanto existir um caminho entre a origem e o destino (encontrado pela função bfs).
+        * O loop realiza os seguintes passos: 
+
+            * Encontra o caminho mínimo ao longo do caminho encontrado, atualizando a variavel com o menor valor entre caminho e o peso residual das arestas.
+            * Atualiza a matriz residual subtraindo o caminho dos pesos das arestas no caminho original e adiciona nas arestas reversas.
+            * Incrementa o fluxo máximo com o valor do caminho.
+            * Retorna o fluxo máximo.
+            
+     */
+
 }
